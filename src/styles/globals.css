@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Fira+Code:wght@400;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: #0a0e14;
+  --surface-container-lowest: #000000;
+  --surface-container-low: #0f141a;
+  --surface-container: #151a21;
+  --surface-container-high: #1b2028;
+  --surface-container-highest: #20262f;
+  --surface-bright: #262c36;
+  --primary: #6bff8f;
+  --secondary: #c180ff;
+  --outline-variant: #44484f;
+  --on-surface: #f1f3fc;
+  --on-surface-variant: #a8abb3;
+  --outline: #72757d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-headline {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.font-label {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  letter-spacing: 0.05em;
+}
+
+::selection {
+  background: rgba(107, 255, 143, 0.3);
+  color: #002c0f;
+}
+
+.grid-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(107, 255, 143, 0.06) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+.glow-primary {
+  box-shadow: 0 0 24px rgba(107, 255, 143, 0.18);
+}
+
+.glow-secondary {
+  box-shadow: 0 0 24px rgba(193, 128, 255, 0.2);
+}
+
+.surface-base {
+  background: var(--surface);
+}
+
+.surface-section {
+  background: var(--surface-container-low);
+}
+
+.surface-card {
+  background: var(--surface-container);
+}
