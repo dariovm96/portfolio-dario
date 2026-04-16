@@ -45,6 +45,50 @@ describe("documentation and setup-scope contracts", () => {
     expect(wrapperSource).not.toMatch(/axios/i);
   });
 
+  it("enforces phase boundary guardrail with explicit anti-choreography assertions", () => {
+    const appPath = resolve(process.cwd(), "src/App.jsx");
+    const setupDepsPath = resolve(process.cwd(), "src/lib/setupDeps.js");
+    const componentPaths = [
+      "src/components/Navbar.jsx",
+      "src/components/Hero.jsx",
+      "src/components/About.jsx",
+      "src/components/Skills.jsx",
+      "src/components/Experience.jsx",
+      "src/components/Education.jsx",
+      "src/components/Projects.jsx",
+      "src/components/Contact.jsx",
+      "src/components/Footer.jsx",
+    ];
+
+    const appSource = readFileSync(appPath, "utf8");
+    const setupDepsSource = readFileSync(setupDepsPath, "utf8");
+
+    expect(appSource).toMatch(/getSetupDeps\(\)/);
+    expect(setupDepsSource).toMatch(/from\s+"framer-motion"/);
+    expect(setupDepsSource).toMatch(/from\s+"@emailjs\/browser"/);
+
+    const choreographyPatterns = [
+      /from\s+"framer-motion"/i,
+      /\bmotion\./i,
+      /\bwhileHover\b/i,
+      /\bwhileTap\b/i,
+      /\bwhileInView\b/i,
+      /\bAnimatePresence\b/i,
+      /\buseScroll\b/i,
+      /\buseTransform\b/i,
+      /\banimate\(/i,
+      /\btransition\s*:/i,
+    ];
+
+    componentPaths.forEach((relativePath) => {
+      const source = readFileSync(resolve(process.cwd(), relativePath), "utf8");
+
+      choreographyPatterns.forEach((pattern) => {
+        expect(source).not.toMatch(pattern);
+      });
+    });
+  });
+
   it("renders Contact structure unchanged plus deterministic submit feedback states", () => {
     render(<Contact data={content.contact} />);
 
