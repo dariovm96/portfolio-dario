@@ -36,7 +36,9 @@ describe("phase 2 accessibility baseline", () => {
     const { container } = render(<App />);
 
     const focusables = Array.from(
-      container.querySelectorAll('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'),
+      container.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ),
     );
     expect(focusables.length).toBeGreaterThan(0);
 

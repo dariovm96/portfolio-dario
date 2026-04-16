@@ -59,6 +59,18 @@ describe("documentation and setup-scope contracts", () => {
       "src/components/Contact.jsx",
       "src/components/Footer.jsx",
     ];
+    const phase2ScopePaths = [
+      "src/App.jsx",
+      "src/data/content.js",
+      "src/components/Navbar.jsx",
+      "src/components/Hero.jsx",
+      "src/components/Skills.jsx",
+      "src/components/Experience.jsx",
+      "src/components/Education.jsx",
+      "src/components/Projects.jsx",
+      "src/components/ui/CTAButton.jsx",
+      "src/components/ui/CardShell.jsx",
+    ];
 
     const appSource = readFileSync(appPath, "utf8");
     const setupDepsSource = readFileSync(setupDepsPath, "utf8");
@@ -69,6 +81,7 @@ describe("documentation and setup-scope contracts", () => {
 
     const choreographyPatterns = [
       /from\s+"framer-motion"/i,
+      /\bmotion\b/i,
       /\bmotion\./i,
       /\bwhileHover\b/i,
       /\bwhileTap\b/i,
@@ -79,11 +92,31 @@ describe("documentation and setup-scope contracts", () => {
       /\banimate\(/i,
       /\btransition\s*:/i,
     ];
+    const backendExpansionPatterns = [
+      /\bfetch\(/i,
+      /\baxios\b/i,
+      /\bXMLHttpRequest\b/i,
+      /\bgraphql\b/i,
+      /\bcreateServer\(/i,
+      /\bexpress\(/i,
+      /\brouter\./i,
+      /\bapp\.(get|post|put|delete|patch)\b/i,
+      /\bmongoose\b/i,
+      /\bprisma\b/i,
+    ];
 
     componentPaths.forEach((relativePath) => {
       const source = readFileSync(resolve(process.cwd(), relativePath), "utf8");
 
       choreographyPatterns.forEach((pattern) => {
+        expect(source).not.toMatch(pattern);
+      });
+    });
+
+    phase2ScopePaths.forEach((relativePath) => {
+      const source = readFileSync(resolve(process.cwd(), relativePath), "utf8");
+
+      backendExpansionPatterns.forEach((pattern) => {
         expect(source).not.toMatch(pattern);
       });
     });
