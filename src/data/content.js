@@ -1,4 +1,12 @@
 export const content = {
+  nav: [
+    { label: "Sobre mí", href: "#about" },
+    { label: "Habilidades", href: "#skills" },
+    { label: "Experiencia", href: "#experience" },
+    { label: "Educación", href: "#education" },
+    { label: "Proyectos", href: "#projects" },
+    { label: "Contacto", href: "#contact" },
+  ],
   hero: {
     fullName: "Darío Vera Muñoz",
     title: "Ingeniero Informático · Desarrollador Fullstack",
@@ -90,20 +98,48 @@ export const content = {
       ],
     },
   ],
-  education: [
-    { title: "Ingeniería Informática", institution: "DUOC UC", period: "2021–2024" },
-    {
-      title: "Analista Programador Computacional",
-      institution: "DUOC UC",
-      period: "Completado",
-    },
-    {
-      title: "Curso de Iniciación al Desarrollo con IA",
-      institution: "Oct 2025",
-      period: "Curso",
-    },
-    { title: "CISCO IT Essentials", institution: "CISCO", period: "2017" },
-  ],
+  education: {
+    degrees: [
+      {
+        icon: "🎓",
+        typeBadge: "Ingeniería",
+        title: "Ingeniería Informática",
+        institution: "Instituto Profesional DUOC UC",
+        period: "Mar 2021 – Dic 2024",
+        location: "Valparaíso, Chile",
+        status: "Titulado",
+      },
+      {
+        icon: "📋",
+        typeBadge: "Técnico",
+        title: "Analista Programador Computacional",
+        institution: "Instituto Profesional DUOC UC",
+        period: "Mar 2021 – Dic 2024",
+        location: "Valparaíso, Chile",
+        status: "Titulado",
+      },
+    ],
+    certifications: [
+      {
+        icon: "🏅",
+        typeBadge: "Certificación",
+        title: "CISCO IT Essentials",
+        entity: "Cisco Networking Academy",
+        period: "Ago 2017 – Dic 2017",
+        credentialUrl: null,
+      },
+    ],
+    courses: [
+      {
+        icon: "🤖",
+        typeBadge: "Curso",
+        title: "Iniciación al Desarrollo con IA",
+        entity: "Plataforma online",
+        period: "Oct 2025",
+        credentialUrl: null,
+      },
+    ],
+  },
   projects: [
     {
       name: "Sistema de Gestión ERP",
