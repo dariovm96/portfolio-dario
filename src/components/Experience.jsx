@@ -1,21 +1,47 @@
+import SectionShell from "./ui/SectionShell";
+import CardShell from "./ui/CardShell";
+import MetaLabel from "./ui/MetaLabel";
+
 function Experience({ data }) {
+  const experiences = Array.isArray(data) ? data : [];
+
   return (
-    <section id="experience" aria-label="Experiencia" className="surface-section px-6 py-20">
-      <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl font-headline font-semibold">Experiencia</h2>
-        <div className="mt-8 space-y-4">
-          {data?.map((item) => (
-            <article key={`${item.company}-${item.period}`} className="surface-card rounded-2xl p-5">
+    <SectionShell id="experience" title="Experiencia" tone="section">
+      <div className="mt-8 space-y-5" data-testid="experience-timeline">
+        {experiences.map((item) => (
+          <div key={`${item.company}-${item.period}`} className="grid grid-cols-[16px_1fr] gap-4">
+            <div className="flex flex-col items-center pt-2" aria-hidden="true">
+              <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(193,128,255,0.7)]" />
+              <span className="mt-2 h-full w-px bg-outline-variant/30" />
+            </div>
+            <CardShell as="article" className="space-y-3">
               <h3 className="text-xl">{item.role}</h3>
-              <p className="font-label text-xs uppercase text-primary">{item.company}</p>
+              <MetaLabel as="p" className="text-primary">
+                {item.company}
+              </MetaLabel>
               <p className="text-sm text-on-surface-variant">
                 {item.location} · {item.mode} · {item.period}
               </p>
-            </article>
-          ))}
-        </div>
+              <div className="flex flex-wrap gap-2">
+                {(item?.stack ?? []).map((stackItem) => (
+                  <span
+                    key={stackItem}
+                    className="rounded-full bg-surface-container-high px-3 py-1 font-label text-xs uppercase text-on-surface-variant"
+                  >
+                    {stackItem}
+                  </span>
+                ))}
+              </div>
+              <ul className="list-disc space-y-1 pl-5 text-on-surface-variant">
+                {(item?.achievements ?? []).map((achievement) => (
+                  <li key={achievement}>{achievement}</li>
+                ))}
+              </ul>
+            </CardShell>
+          </div>
+        ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }
 
