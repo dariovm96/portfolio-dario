@@ -1,15 +1,24 @@
+import { motion } from "framer-motion";
+import { getItemReveal, getStaggerContainer } from "../motion/variants";
+import { useMotionPrefs } from "../motion/useMotionPrefs";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
 
 function Experience({ data }) {
+  const { reduce } = useMotionPrefs();
   const experiences = Array.isArray(data) ? data : [];
+  const containerMotion = getStaggerContainer(reduce);
 
   return (
     <SectionShell id="experience" title="Experiencia" tone="section">
-      <div className="mt-8 space-y-5" data-testid="experience-timeline">
-        {experiences.map((item) => (
-          <div key={`${item.company}-${item.period}`} className="grid grid-cols-[16px_1fr] gap-4 md:gap-5">
+      <motion.div className="mt-8 space-y-5" data-testid="experience-timeline" {...containerMotion}>
+        {experiences.map((item, index) => (
+          <motion.div
+            key={`${item.company}-${item.period}`}
+            className="grid grid-cols-[16px_1fr] gap-4 md:gap-5"
+            {...getItemReveal(reduce, index * 0.025)}
+          >
             <div className="flex flex-col items-center pt-2" aria-hidden="true">
               <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(193,128,255,0.7)]" />
               <span className="mt-2 h-full w-px bg-outline-variant/30" />
@@ -41,9 +50,9 @@ function Experience({ data }) {
                 ))}
               </ul>
             </CardShell>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </SectionShell>
   );
 }
