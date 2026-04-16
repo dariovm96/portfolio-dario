@@ -10,20 +10,27 @@ function Projects({ data }) {
     <SectionShell id="projects" title="Proyectos" tone="section">
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
-          <CardShell key={project.name} as="article" className="flex flex-col gap-4" tone="high">
+          <CardShell
+            key={project.name}
+            as="article"
+            className="flex flex-col gap-4 tonal-layer-2"
+            tone="high"
+            borderStyle="emphasis"
+            richness="nested"
+          >
             <div
               data-testid="project-media-slot"
-              className="h-32 rounded-xl bg-surface-container-low"
+              className="h-32 rounded-xl bg-surface-container-low tonal-layer-2 ring-1 ring-outline-variant/25"
               aria-label={`Media ${project.name}`}
             />
-            <h3>{project.name}</h3>
+            <h3 className="font-semibold text-on-surface">{project.name}</h3>
             <p className="text-on-surface-variant">{project.description}</p>
 
-            <div className="flex flex-wrap gap-2">
+            <div data-testid="project-meta-group" className="flex flex-wrap gap-2">
               {(project?.tech ?? []).map((tech) => (
                 <span
                   key={`${project.name}-${tech}`}
-                  className="rounded-full bg-surface-container-low px-3 py-1 font-label text-xs uppercase text-outline"
+                  className="rounded-full bg-surface-container-low tonal-layer-2 px-3 py-1 font-label text-xs uppercase text-outline"
                 >
                   {tech}
                 </span>
