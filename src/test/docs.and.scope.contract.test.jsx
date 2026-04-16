@@ -59,6 +59,18 @@ describe("documentation and setup-scope contracts", () => {
       "src/components/Contact.jsx",
       "src/components/Footer.jsx",
     ];
+    const phase3MotionAllowlistPaths = new Set([
+      "src/components/Hero.jsx",
+      "src/components/Skills.jsx",
+      "src/components/Experience.jsx",
+      "src/components/Projects.jsx",
+      "src/components/Contact.jsx",
+      "src/components/ui/CTAButton.jsx",
+      "src/motion/tokens.js",
+      "src/motion/variants.js",
+      "src/motion/useMotionPrefs.js",
+      "src/lib/setupDeps.js",
+    ]);
     const phase2ScopePaths = [
       "src/App.jsx",
       "src/data/content.js",
@@ -92,6 +104,14 @@ describe("documentation and setup-scope contracts", () => {
       /\banimate\(/i,
       /\btransition\s*:/i,
     ];
+    const prohibitedPhase4Patterns = [
+      /\bparallax\b/i,
+      /\bcursor[-\s]?follow\b/i,
+      /\buseScroll\b/i,
+      /\buseTransform\b/i,
+      /\binfinite\b/i,
+      /\brepeat\s*:\s*Infinity\b/i,
+    ];
     const backendExpansionPatterns = [
       /\bfetch\(/i,
       /\baxios\b/i,
@@ -108,7 +128,20 @@ describe("documentation and setup-scope contracts", () => {
     componentPaths.forEach((relativePath) => {
       const source = readFileSync(resolve(process.cwd(), relativePath), "utf8");
 
-      choreographyPatterns.forEach((pattern) => {
+      if (!phase3MotionAllowlistPaths.has(relativePath)) {
+        choreographyPatterns.forEach((pattern) => {
+          expect(source).not.toMatch(pattern);
+        });
+      }
+
+      prohibitedPhase4Patterns.forEach((pattern) => {
+        expect(source).not.toMatch(pattern);
+      });
+    });
+
+    phase3MotionAllowlistPaths.forEach((relativePath) => {
+      const source = readFileSync(resolve(process.cwd(), relativePath), "utf8");
+      prohibitedPhase4Patterns.forEach((pattern) => {
         expect(source).not.toMatch(pattern);
       });
     });

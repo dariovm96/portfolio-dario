@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { getSectionReveal } from "../motion/variants";
+import { useMotionPrefs } from "../motion/useMotionPrefs";
 import { sendContactEmail } from "../lib/contactEmail";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
@@ -30,6 +33,7 @@ function ChannelIcon({ type }) {
 }
 
 function Contact({ data }) {
+  const { reduce } = useMotionPrefs();
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -73,10 +77,12 @@ function Contact({ data }) {
 
   const channels = Array.isArray(data?.channels) ? data.channels : [];
   const fields = Array.isArray(data?.form?.fields) ? data.form.fields : [];
+  const reveal = getSectionReveal(reduce);
 
   return (
     <SectionShell id="contact" title={data?.heading || "Contacto"} tone="base" containerClassName="max-w-4xl">
-      <CardShell
+      <motion.div {...reveal}>
+        <CardShell
         as="div"
         tone="high"
         borderStyle="accent"
@@ -139,16 +145,48 @@ function Contact({ data }) {
             type="submit"
             disabled={submitStatus === "sending"}
             aria-label={data?.form?.submitLabel}
-            className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 font-label text-xs uppercase tracking-[0.05em] text-surface shadow-ambient-primary transition-colors hover:bg-primary/90 hover:shadow-[0_0_28px_rgba(107,255,143,0.28)] disabled:cursor-not-allowed disabled:opacity-70"
+            className={`inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 font-label text-xs uppercase tracking-[0.05em] text-surface shadow-ambient-primary transition-colors hover:bg-primary/90 hover:shadow-[0_0_28px_rgba(107,255,143,0.28)] disabled:cursor-not-allowed disabled:opacity-70 ${
+              reduce ? "motion-reduce-safe" : ""
+            }`.trim()}
           >
             {data?.form?.submitLabel}
           </button>
 
-          {submitStatus === "sending" ? <p role="status">Enviando mensaje...</p> : null}
-          {submitStatus === "success" ? <p role="status">Mensaje enviado con éxito.</p> : null}
-          {submitStatus === "error" ? <p role="alert">No se pudo enviar el mensaje. Inténtalo de nuevo.</p> : null}
+          {submitStatus === "sending" ? (
+            <motion.p
+              role="status"
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: reduce ? 0.01 : 0.14 }}
+            >
+              Enviando mensaje...
+            </motion.p>
+          ) : null}
+          {submitStatus === "success" ? (
+            <motion.p
+              role="status"
+              className="text-primary"
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: reduce ? 0.01 : 0.14 }}
+            >
+              Mensaje enviado con éxito.
+            </motion.p>
+          ) : null}
+          {submitStatus === "error" ? (
+            <motion.p
+              role="alert"
+              className="text-secondary"
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: reduce ? 0.01 : 0.14 }}
+            >
+              No se pudo enviar el mensaje. Inténtalo de nuevo.
+            </motion.p>
+          ) : null}
         </form>
-      </CardShell>
+        </CardShell>
+      </motion.div>
     </SectionShell>
   );
 }
