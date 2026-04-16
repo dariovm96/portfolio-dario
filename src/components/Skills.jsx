@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { getItemReveal, getStaggerContainer } from "../motion/variants";
+import { useMotionPrefs } from "../motion/useMotionPrefs";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
@@ -24,13 +27,16 @@ function LevelBlocks({ level }) {
 }
 
 function Skills({ data }) {
+  const { reduce } = useMotionPrefs();
   const categories = Array.isArray(data?.categories) ? data.categories : [];
+  const containerMotion = getStaggerContainer(reduce);
 
   return (
     <SectionShell id="skills" title="Habilidades" tone="base">
-      <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {categories.map((category) => (
-          <CardShell key={category.name} as="article" className="space-y-3 p-4 md:p-5" richness="nested">
+      <motion.div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3" data-testid="skills-reveal-container" {...containerMotion}>
+        {categories.map((category, index) => (
+          <motion.div key={category.name} {...getItemReveal(reduce, index * 0.03)}>
+            <CardShell as="article" className="space-y-3 p-4 md:p-5" richness="nested">
             <MetaLabel as="h3" className="text-primary">
               {category.name}
             </MetaLabel>
@@ -45,9 +51,10 @@ function Skills({ data }) {
                 </li>
               ))}
             </ul>
-          </CardShell>
+            </CardShell>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </SectionShell>
   );
 }
