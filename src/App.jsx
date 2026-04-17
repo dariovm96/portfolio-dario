@@ -74,9 +74,17 @@ function App() {
     };
   });
 
+  const brandLabel = heroData.fullName.trim();
+  const brandData = brandLabel
+    ? {
+        label: brandLabel,
+        href: "#hero",
+      }
+    : null;
+
   return (
     <>
-      <Navbar data={navData} />
+      <Navbar data={navData} brand={brandData} />
       <main>
         <Hero data={heroData} />
         <About data={aboutData} />

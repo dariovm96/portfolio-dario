@@ -49,8 +49,12 @@ function Hero({ data }) {
         <motion.div
           data-testid="hero-visual-slot"
           aria-hidden="true"
-          className="h-64 w-full rounded-3xl bg-surface-container-low tonal-layer-1 ring-1 ring-outline-variant/25 shadow-ambient-secondary hero-visual-depth md:h-72"
-        />
+          className="mx-auto flex h-[280px] w-[280px] items-center justify-center rounded-full bg-surface-container-low tonal-layer-1 ring-1 ring-outline-variant/25 shadow-ambient-secondary hero-visual-depth"
+        >
+          <span aria-hidden="true" data-testid="hero-visual-icon" className="text-5xl text-primary/70">
+            ✦
+          </span>
+        </motion.div>
       </motion.aside>
 
       <p className="sr-only" aria-live="polite">

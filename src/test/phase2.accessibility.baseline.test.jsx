@@ -30,6 +30,17 @@ describe("phase 2 accessibility baseline", () => {
     expect(screen.getByRole("button", { name: /enviar mensaje/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /github de sistema de gestión erp/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /demo de portfolio react/i })).toBeInTheDocument();
+
+    const heroVisualSlot = screen.getByTestId("hero-visual-slot");
+    expect(heroVisualSlot).toHaveAttribute("aria-hidden", "true");
+    const decorativeIcon = screen.getByTestId("hero-visual-icon");
+    expect(decorativeIcon).toHaveAttribute("aria-hidden", "true");
+
+    const nav = screen.getByRole("navigation", { name: /navegación principal/i });
+    const sectionLinks = Array.from(nav.querySelectorAll('a[href^="#"]')).filter(
+      (link) => link.getAttribute("href") !== "#hero",
+    );
+    expect(sectionLinks.length).toBeGreaterThan(0);
   });
 
   it("supports deterministic keyboard traversal evidence without trap", () => {

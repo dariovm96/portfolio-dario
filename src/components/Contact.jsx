@@ -185,6 +185,10 @@ function Contact({ data }) {
             </motion.p>
           ) : null}
         </form>
+
+        <p data-testid="contact-location-label" className="text-center text-sm text-on-surface-variant">
+          📍 {data?.location || "Valparaíso, Chile"}
+        </p>
         </CardShell>
       </motion.div>
     </SectionShell>

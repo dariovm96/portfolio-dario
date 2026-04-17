@@ -11,13 +11,17 @@ function About({ data }) {
         as="article"
         tone="high"
         borderStyle="emphasis"
-        className="space-y-4 shadow-[0_14px_34px_rgba(0,0,0,0.28)]"
+        className="space-y-4 p-5 md:!p-5 shadow-[0_14px_34px_rgba(0,0,0,0.28)]"
       >
         <MetaLabel as="p">Perfil profesional</MetaLabel>
         <p>{data?.professionalSummary}</p>
       </CardShell>
 
-      <CardShell as="article" className="space-y-4 tonal-layer-2 ring-1 ring-outline-variant/15">
+      <CardShell
+        as="article"
+        borderStyle="emphasis"
+        className="space-y-4 p-5 md:!p-5 tonal-layer-2 ring-1 ring-outline-variant/15"
+      >
         <MetaLabel as="p">Perfil personal</MetaLabel>
         <p className="text-on-surface-variant">{data?.personalSummary}</p>
       </CardShell>

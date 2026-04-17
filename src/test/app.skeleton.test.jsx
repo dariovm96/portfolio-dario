@@ -29,8 +29,23 @@ describe("App skeleton composition", () => {
 
     const nav = screen.getByRole("navigation", { name: /navegación principal/i });
     const links = within(nav).getAllByRole("link");
-    const hrefs = links.map((link) => link.getAttribute("href"));
+    const brandLink = within(nav).queryByTestId("navbar-brand-link");
 
-    expect(hrefs).toEqual(["#about", "#skills", "#experience", "#education", "#projects", "#contact"]);
+    if (brandLink) {
+      expect(brandLink).toHaveAttribute("href", "#hero");
+    }
+
+    const sectionHrefs = links
+      .map((link) => link.getAttribute("href"))
+      .filter((href) => href !== "#hero");
+
+    expect(sectionHrefs).toEqual([
+      "#about",
+      "#skills",
+      "#experience",
+      "#education",
+      "#projects",
+      "#contact",
+    ]);
   });
 });
