@@ -26,7 +26,7 @@ function Education({ data }) {
           >
             TÍTULOS Y GRADOS
           </MetaLabel>
-          <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
+          <div className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {degreeItems.map((item) => (
               <DegreeCard key={`${item.title}-${item.period}`} item={item} />
             ))}
@@ -54,7 +54,7 @@ function Education({ data }) {
               >
                 CERTIFICACIONES
               </MetaLabel>
-              <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
+              <div className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {certificationItems.map((item) => (
                   <CertCourseCard
                     key={`${item.title}-${item.period}`}
@@ -72,7 +72,7 @@ function Education({ data }) {
               >
                 CURSOS
               </MetaLabel>
-              <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
+              <div className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {courseItems.map((item) => (
                   <CertCourseCard
                     key={`${item.title}-${item.period}`}
@@ -94,7 +94,7 @@ function DegreeCard({ item }) {
 
   return (
     <article
-      className="group card-ghost-edge flex min-h-[16rem] flex-col gap-3 rounded-xl border border-[#22c55e44] border-l-[3px] border-l-[#22c55e] bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-[#22c55e66] hover:border-l-[#22c55e]"
+      className="group card-ghost-edge flex min-h-[16rem] w-full max-w-[420px] flex-col gap-3 rounded-xl border border-[#22c55e44] border-l-[3px] border-l-[#22c55e] bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-[#22c55e66] hover:border-l-[#22c55e]"
       data-testid="education-degree-card"
     >
       <div className="flex items-start gap-3">
@@ -155,7 +155,7 @@ function CertCourseCard({ item, accent }) {
 
   return (
     <article
-      className={`group card-ghost-edge flex min-h-[15rem] flex-col gap-3 rounded-xl border ${accentTokens.border} border-l-[3px] ${accentTokens.left} bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-l-[3px]`}
+      className={`group card-ghost-edge flex min-h-[15rem] w-full max-w-[420px] flex-col gap-3 rounded-xl border ${accentTokens.border} border-l-[3px] ${accentTokens.left} bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-l-[3px]`}
       data-testid={accent === "purple" ? "education-course-card" : "education-certification-card"}
     >
       <div className="flex items-start gap-3">

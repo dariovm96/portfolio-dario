@@ -48,10 +48,14 @@ describe("phase 2 components contract", () => {
 
     const nav = screen.getByRole("navigation", { name: /navegación principal/i });
     const navLinks = within(nav).getAllByRole("link");
+    const brandLink = within(nav).getByTestId("navbar-brand-link");
+    const sectionLinks = navLinks.filter((link) => link !== brandLink);
 
-    expect(navLinks.length).toBe(content.nav.length);
-    expect(navLinks.map((link) => link.textContent)).toEqual(content.nav.map((item) => item.label));
-    expect(navLinks.map((link) => link.getAttribute("href"))).toEqual(content.nav.map((item) => item.href));
+    expect(brandLink).toHaveAttribute("href", "#hero");
+    expect(brandLink).toHaveTextContent(content.hero.fullName);
+    expect(sectionLinks.length).toBe(content.nav.length);
+    expect(sectionLinks.map((link) => link.textContent)).toEqual(content.nav.map((item) => item.label));
+    expect(sectionLinks.map((link) => link.getAttribute("href"))).toEqual(content.nav.map((item) => item.href));
   });
 
   it("keeps hero with explicit two-zone composition and dedicated visual slot", () => {
@@ -65,6 +69,10 @@ describe("phase 2 components contract", () => {
     const slot = within(visualZone).getByTestId("hero-visual-slot");
     expect(slot).toBeInTheDocument();
     expect(slot.className).toMatch(/\bhero-visual-depth\b/);
+    expect(slot.className).toMatch(/\brounded-full\b/);
+    expect(slot.className).toContain("h-[280px]");
+    expect(slot.className).toContain("w-[280px]");
+    expect(within(slot).getByTestId("hero-visual-icon")).toBeInTheDocument();
 
     const visualHeading = within(visualZone).queryByRole("heading", { name: content.hero.fullName });
     expect(visualHeading).not.toBeInTheDocument();
@@ -244,10 +252,56 @@ describe("phase 2 components contract", () => {
       content.education.courses.length,
     );
 
-    const responsiveGrids = educationSection.querySelectorAll(
-      '[class*="[grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]"]',
+    const responsiveGrids = educationSection.querySelectorAll(".grid");
+    const boundedGrids = Array.from(responsiveGrids).filter((grid) =>
+      ["grid-cols-1", "md:grid-cols-2", "lg:grid-cols-3", "xl:grid-cols-4", "justify-items-start"].every(
+        (classToken) => grid.className.includes(classToken),
+      ),
     );
-    expect(responsiveGrids.length).toBe(3);
+    expect(boundedGrids.length).toBeGreaterThanOrEqual(3);
+
+    const cappedCards = within(educationSection).getAllByTestId(/education-(degree|certification|course)-card/);
+    cappedCards.forEach((card) => {
+      expect(card.className).toContain("max-w-[420px]");
+    });
+  });
+
+  it("renders project media conditionally with fallback model when imageUrl is empty", () => {
+    const projectData = [
+      {
+        name: "Con imagen",
+        description: "Proyecto con imagen",
+        tech: ["React"],
+        githubUrl: "#",
+        demoUrl: "#",
+        imageUrl: "https://example.com/preview.png",
+      },
+      {
+        name: "Sin imagen",
+        description: "Proyecto sin imagen",
+        tech: ["Node"],
+        githubUrl: "#",
+        demoUrl: "#",
+        imageUrl: "   ",
+      },
+    ];
+
+    render(<Projects data={projectData} />);
+
+    expect(screen.getByRole("img", { name: /vista previa de con imagen/i })).toBeInTheDocument();
+    const fallbackMedia = screen.getByLabelText(/fallback visual sin imagen/i);
+    expect(fallbackMedia).toBeInTheDocument();
+    expect(within(fallbackMedia).getByText("Sin imagen")).toBeInTheDocument();
+    expect(within(fallbackMedia).getByText("Node")).toBeInTheDocument();
+  });
+
+  it("renders contact location label centered below form", () => {
+    render(<App />);
+
+    const locationLabel = screen.getByTestId("contact-location-label");
+    expect(locationLabel).toBeInTheDocument();
+    expect(locationLabel).toHaveTextContent("📍 Valparaíso, Chile");
+    expect(locationLabel.className).toMatch(/\btext-center\b/);
   });
 
   it("renders contact channel icons according to channel type", () => {

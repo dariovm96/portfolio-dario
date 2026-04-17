@@ -53,7 +53,7 @@ export const content = {
         items: [
           { name: "Docker", level: "Intermedio" },
           { name: "AWS EC2", level: "Intermedio" },
-          { name: "Git/GitHub", level: "Intermedio" },
+          { name: "Git/GitHub", level: "Avanzado" },
           { name: "Linux", level: "Intermedio" },
         ],
       },

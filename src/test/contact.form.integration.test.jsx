@@ -85,6 +85,27 @@ describe("Contact form EmailJS flow", () => {
     expect(screen.queryByText("Enviando mensaje...")).not.toBeInTheDocument();
   });
 
+  it("keeps submit flow unchanged when location label is present", async () => {
+    const deferred = createDeferred();
+    sendContactEmail.mockReturnValueOnce(deferred.promise);
+    render(<Contact data={content.contact} />);
+
+    expect(screen.getByTestId("contact-location-label")).toHaveTextContent("📍 Valparaíso, Chile");
+
+    fillRequiredFields();
+    const submit = screen.getByRole("button", { name: content.contact.form.submitLabel });
+    fireEvent.click(submit);
+
+    expect(sendContactEmail).toHaveBeenCalledTimes(1);
+    expect(submit).toBeDisabled();
+
+    deferred.resolve({ status: 200 });
+
+    await waitFor(() => {
+      expect(screen.getByRole("status")).toHaveTextContent("Mensaje enviado con éxito.");
+    });
+  });
+
   it("prevents duplicate submit while request is in-flight", async () => {
     const deferred = createDeferred();
     sendContactEmail.mockReturnValueOnce(deferred.promise);

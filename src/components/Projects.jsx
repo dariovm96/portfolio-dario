@@ -14,7 +14,7 @@ function Projects({ data }) {
   return (
     <SectionShell id="projects" title="Proyectos" tone="section">
       <motion.div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3" {...sectionReveal}>
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <motion.div
             key={project.name}
             data-testid="project-card-interactive"
@@ -28,11 +28,7 @@ function Projects({ data }) {
               borderStyle="emphasis"
               richness="nested"
             >
-              <div
-                data-testid="project-media-slot"
-                className="h-32 rounded-xl bg-surface-container-low tonal-layer-2 ring-1 ring-outline-variant/25"
-                aria-label={`Media ${project.name}`}
-              />
+              <ProjectMedia project={project} index={index} />
               <h3 className="font-semibold text-on-surface">{project.name}</h3>
               <p className="text-on-surface-variant">{project.description}</p>
 
@@ -67,6 +63,35 @@ function Projects({ data }) {
         ))}
       </motion.div>
     </SectionShell>
+  );
+}
+
+function ProjectMedia({ project, index }) {
+  const normalizedImageUrl = typeof project?.imageUrl === "string" ? project.imageUrl.trim() : "";
+  const hasImage = normalizedImageUrl.length > 0;
+  const fallbackAccentClass = index % 2 === 0 ? "project-fallback-accent-primary" : "project-fallback-accent-secondary";
+  const fallbackTech = Array.isArray(project?.tech) && project.tech.length > 0 ? project.tech[0] : "Proyecto";
+
+  if (hasImage) {
+    return (
+      <img
+        data-testid="project-media-slot"
+        src={normalizedImageUrl}
+        alt={`Vista previa de ${project.name}`}
+        className="h-32 w-full rounded-xl object-cover ring-1 ring-outline-variant/25"
+      />
+    );
+  }
+
+  return (
+    <div
+      data-testid="project-media-slot"
+      className={`project-fallback-media h-32 rounded-xl ring-1 ring-outline-variant/25 ${fallbackAccentClass}`}
+      aria-label={`Fallback visual ${project.name}`}
+    >
+      <p className="project-fallback-title">{project.name}</p>
+      <span className="project-fallback-chip">{fallbackTech}</span>
+    </div>
   );
 }
 

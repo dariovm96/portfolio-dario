@@ -1,8 +1,22 @@
-function Navbar({ data = [] }) {
+function Navbar({ data = [], brand = null }) {
+  const hasBrand = Boolean(brand?.label && brand?.href);
+
   return (
     <header className="sticky top-0 z-50 surface-glass nav-ghost-separator">
       <nav aria-label="Navegación principal" className="mx-auto max-w-6xl px-6 py-3">
         <ul className="flex flex-wrap items-center gap-2 font-label text-xs uppercase text-on-surface-variant md:gap-3">
+          {hasBrand ? (
+            <li>
+              <a
+                href={brand.href}
+                aria-label={`Ir a sección ${brand.label}`}
+                data-testid="navbar-brand-link"
+                className="inline-flex rounded-lg px-3 py-1.5 text-primary tonal-layer-1 transition-colors hover:tonal-layer-2"
+              >
+                {brand.label}
+              </a>
+            </li>
+          ) : null}
           {data.map((item) => (
             <li key={item.href}>
               <a
