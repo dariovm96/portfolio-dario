@@ -30,10 +30,18 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #root {
   min-height: 100%;
+}
+
+section {
+  scroll-margin-top: 70px;
 }
 
 body {
@@ -239,5 +247,57 @@ h6 {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     transform: none !important;
+  }
+}
+
+/* ── Navbar nav links ───────────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  padding: 4px 2px;
+  transition: color 0.25s ease, transform 0.2s ease;
+  line-height: 1;
+}
+
+.nav-link:hover {
+  color: #22c55e;
+  transform: scale(1.08);
+}
+
+.nav-link.is-active {
+  color: #22c55e;
+}
+
+.nav-underline {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 1.5px;
+  background: #22c55e;
+  border-radius: 2px;
+  transition: width 0.25s ease;
+  display: block;
+}
+
+.nav-link:hover .nav-underline,
+.nav-link.is-active .nav-underline {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-link {
+    transition: color 0.01ms !important;
+    transform: none !important;
+  }
+  .nav-underline {
+    transition: none !important;
   }
 }

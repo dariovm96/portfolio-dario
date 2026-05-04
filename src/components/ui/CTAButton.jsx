@@ -11,7 +11,7 @@ const variantClasses = {
     "bg-transparent text-on-surface card-ghost-edge hover:bg-surface-container-high/45",
 };
 
-function CTAButton({ href, label, variant = "primary", ariaLabel, className = "" }) {
+function CTAButton({ href, label, variant = "primary", ariaLabel, className = "", onClick }) {
   const { reduce, canHoverMotion } = useMotionPrefs();
 
   if (!href || !label) {
@@ -20,9 +20,17 @@ function CTAButton({ href, label, variant = "primary", ariaLabel, className = ""
 
   const interaction = getCtaInteract(reduce, canHoverMotion);
 
+  function handleClick(e) {
+    if (onClick) {
+      e.preventDefault()
+      onClick()
+    }
+  }
+
   return (
     <motion.a
       href={href}
+      onClick={handleClick}
       aria-label={ariaLabel ?? label}
       data-cta-variant={variant}
       data-motion-onset-ms="140"

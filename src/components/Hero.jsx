@@ -5,6 +5,7 @@ import SectionShell from "./ui/SectionShell";
 import CTAButton from "./ui/CTAButton";
 import BinaryBackground from "./BinaryBackground";
 import profilePhoto from "../assets/foto_perfil.png";
+import { scrollToSection } from "../utils/smoothScroll";
 
 function Hero({ data }) {
   const { reduce } = useMotionPrefs();
@@ -45,14 +46,15 @@ function Hero({ data }) {
 
         <div className="pt-2 flex flex-wrap gap-3">
           {ctas.map((cta) => (
-            <CTAButton
-              key={cta.label}
-              href={cta.href}
-              label={cta.label}
-              ariaLabel={`CTA ${cta.label}`}
-              variant={cta.variant}
-            />
-          ))}
+              <CTAButton
+                key={cta.label}
+                href={cta.href}
+                label={cta.label}
+                ariaLabel={`CTA ${cta.label}`}
+                variant={cta.variant}
+                onClick={() => scrollToSection(cta.href.replace('#', ''))}
+              />
+            ))}
         </div>
       </motion.div>
 
