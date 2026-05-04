@@ -12,6 +12,7 @@ function SectionShell({
   tone = "section",
   className = "",
   containerClassName = "",
+  style,
   children,
 }) {
   const safeId = id || "section";
@@ -23,6 +24,7 @@ function SectionShell({
       id={safeId}
       aria-labelledby={labelledBy || (title ? headingId : undefined)}
       className={`${toneClasses[tone] ?? toneClasses.section} px-6 py-20 ${className}`.trim()}
+      style={style}
     >
       <div className={`mx-auto max-w-6xl ${containerClassName}`.trim()}>
         {title ? <HeadingTag id={headingId} className="text-3xl font-headline font-semibold md:text-4xl">{title}</HeadingTag> : null}
