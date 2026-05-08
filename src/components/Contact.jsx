@@ -145,7 +145,7 @@ function Contact({ data }) {
             type="submit"
             disabled={submitStatus === "sending"}
             aria-label={data?.form?.submitLabel}
-            className={`inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 font-label text-xs uppercase tracking-[0.05em] text-surface shadow-ambient-primary transition-colors hover:bg-primary/90 hover:shadow-[0_0_28px_rgba(107,255,143,0.28)] disabled:cursor-not-allowed disabled:opacity-70 ${
+            className={`inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 font-label text-xs uppercase tracking-[0.05em] text-surface shadow-ambient-primary transition-colors hover:bg-primary/90 hover:shadow-[0_0_28px_rgba(107,255,143,0.28)] disabled:cursor-not-allowed disabled:opacity-70 w-full sm:w-auto mx-auto sm:mx-0 block sm:inline-flex ${
               reduce ? "motion-reduce-safe" : ""
             }`.trim()}
           >

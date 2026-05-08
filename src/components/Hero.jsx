@@ -35,7 +35,7 @@ function Hero({ data }) {
         pointerEvents: 'none',
         zIndex: 1,
       }} />
-      <motion.div className="space-y-5" data-testid="hero-reveal-block" style={{ position: 'relative', zIndex: 2 }} {...reveal}>
+      <motion.div className="space-y-5 text-center sm:text-left" data-testid="hero-reveal-block" style={{ position: 'relative', zIndex: 2 }} {...reveal}>
         <p className="font-label text-xs uppercase text-primary">{data?.location}</p>
         <h1 id="hero-heading" className="text-4xl font-headline font-bold md:text-6xl">
           {givenNames ? `${givenNames} ` : ""}
@@ -44,7 +44,7 @@ function Hero({ data }) {
         <p className="text-xl text-on-surface-variant">{data?.title}</p>
         <p className="max-w-2xl text-on-surface-variant">{data?.tagline}</p>
 
-        <div className="pt-2 flex flex-wrap gap-3">
+        <div className="pt-2 flex flex-wrap gap-3 justify-center sm:justify-start">
           {ctas.map((cta) => (
               <CTAButton
                 key={cta.label}
