@@ -11,7 +11,7 @@ export const content = {
     hero: {
       fullName: "Darío Vera Muñoz",
       title: "Ingeniero Informático · Desarrollador Fullstack",
-      tagline: "Construyo sistemas que funcionan — y experiencias que importan.",
+      tagline: "Construyo sistemas que funcionan y experiencias que importan.",
       ctas: [
         { label: "Ver proyectos", href: "#projects", variant: "primary" },
         { label: "Contactarme", href: "#contact", variant: "secondary" },
@@ -258,7 +258,7 @@ export const content = {
     hero: {
       fullName: "Darío Vera Muñoz",
       title: "Software Engineer · Fullstack Developer",
-      tagline: "I build systems that work — and experiences that matter.",
+      tagline: "I build systems that work and experiences that matter.",
       ctas: [
         { label: "View projects", href: "#projects", variant: "primary" },
         { label: "Contact me", href: "#contact", variant: "secondary" },
@@ -267,7 +267,7 @@ export const content = {
     },
     about: {
       professionalSummary:
-        "As a Software Engineer, I specialize in backend development with PHP and Python/Django, building scalable and robust solutions. Lately I've been deepening my focus on process automation — an area I'm increasingly integrating into my work.",
+        "As a Software Engineer, I specialize in backend development with PHP and Python/Django, building scalable and robust solutions. Lately I've been deepening my focus on process automation, an area I'm increasingly integrating into my work.",
       personalSummary:
         "Outside of code I enjoy music, video games, traveling, and life in Chile alongside my cats, friends, and family.",
       interests: ["🎮 Gaming", "🐱 Cats", "✈️ Travel", "💻 Tech"],
