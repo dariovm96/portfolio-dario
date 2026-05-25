@@ -21,6 +21,7 @@ function Projects({ data }) {
         {projects.map((project, index) => (
           <motion.div
             key={project.name}
+            className="self-start"
             data-testid="project-card-interactive"
             tabIndex={0}
             {...getCardInteract(reduce, canHoverMotion)}
