@@ -10,12 +10,30 @@ class IntersectionObserverMock {
   disconnect() {}
 }
 
+class ResizeObserverMock {
+  constructor() {}
+
+  observe() {}
+
+  unobserve() {}
+
+  disconnect() {}
+}
+
 if (typeof window !== "undefined" && !window.IntersectionObserver) {
   window.IntersectionObserver = IntersectionObserverMock;
 }
 
 if (typeof globalThis !== "undefined" && !globalThis.IntersectionObserver) {
   globalThis.IntersectionObserver = IntersectionObserverMock;
+}
+
+if (typeof window !== "undefined" && !window.ResizeObserver) {
+  window.ResizeObserver = ResizeObserverMock;
+}
+
+if (typeof globalThis !== "undefined" && !globalThis.ResizeObserver) {
+  globalThis.ResizeObserver = ResizeObserverMock;
 }
 
 if (typeof window !== "undefined" && !window.matchMedia) {
