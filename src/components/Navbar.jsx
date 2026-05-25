@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { scrollToSection } from '../utils/smoothScroll'
+import LanguageToggle from './ui/LanguageToggle'
 
 function Navbar({ data = [], brand = null }) {
   const hasBrand = Boolean(brand?.label && brand?.href);
@@ -122,6 +123,7 @@ function Navbar({ data = [], brand = null }) {
               )
             })}
           </ul>
+          <LanguageToggle />
         </div>
 
         {/* ── Menú mobile desplegable ── */}
@@ -130,7 +132,7 @@ function Navbar({ data = [], brand = null }) {
           aria-hidden={!menuOpen}
           style={{
             overflow: 'hidden',
-            maxHeight: menuOpen ? `${data.length * 52}px` : '0',
+            maxHeight: menuOpen ? `${data.length * 52 + 52}px` : '0',
             transition: 'max-height 0.3s ease',
           }}
         >
@@ -154,9 +156,9 @@ function Navbar({ data = [], brand = null }) {
                 </li>
               )
             })}
+            <li className="pt-1"><LanguageToggle /></li>
           </ul>
         </div>
-
       </nav>
     </header>
   );
