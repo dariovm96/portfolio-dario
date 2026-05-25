@@ -14,10 +14,10 @@ describe("App skeleton composition", () => {
     expect(sectionIds).toEqual([
       "hero",
       "about",
+      "projects",
       "skills",
       "experience",
       "education",
-      "projects",
       "contact",
     ]);
 
@@ -42,10 +42,10 @@ describe("App skeleton composition", () => {
 
     expect(sectionHrefs).toEqual([
       "#about",
+      "#projects",
       "#skills",
       "#experience",
       "#education",
-      "#projects",
       "#contact",
     ]);
   });

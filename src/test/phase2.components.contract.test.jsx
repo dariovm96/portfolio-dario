@@ -15,7 +15,7 @@ describe("phase 2 components contract", () => {
     const main = container.querySelector("main");
     const ids = Array.from(main.querySelectorAll("section")).map((section) => section.id);
 
-    expect(ids).toEqual(["hero", "about", "skills", "experience", "education", "projects", "contact"]);
+    expect(ids).toEqual(["hero", "about", "projects", "skills", "experience", "education", "contact"]);
     expect(screen.getByRole("navigation", { name: /navegación principal/i })).toBeInTheDocument();
     expect(screen.getByRole("contentinfo", { name: /pie de página/i })).toBeInTheDocument();
 
