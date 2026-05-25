@@ -21,7 +21,6 @@ function Projects({ data }) {
         {projects.map((project, index) => (
           <motion.div
             key={project.name}
-            className="self-start"
             data-testid="project-card-interactive"
             tabIndex={0}
             {...getCardInteract(reduce, canHoverMotion)}
@@ -30,7 +29,7 @@ function Projects({ data }) {
           >
             <CardShell
               as="article"
-              className="flex flex-col gap-4 tonal-layer-2"
+              className="flex h-full flex-col gap-4 tonal-layer-2"
               tone="high"
               borderStyle="emphasis"
               richness="nested"
