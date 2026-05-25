@@ -1,7 +1,10 @@
 import SectionShell from "./ui/SectionShell";
 import MetaLabel from "./ui/MetaLabel";
+import { useLanguage } from "../contexts/LanguageContext";
 
 function Education({ data }) {
+  const { content } = useLanguage();
+  const ui = content?.ui?.education ?? {};
   const degreeItems = Array.isArray(data?.degrees) ? data.degrees : [];
   const certificationItems = Array.isArray(data?.certifications) ? data.certifications : [];
   const courseItems = Array.isArray(data?.courses) ? data.courses : [];
@@ -13,7 +16,7 @@ function Education({ data }) {
           id="education-heading"
           className="text-3xl font-headline font-semibold leading-tight text-on-surface md:text-4xl"
         >
-          Formación Académica
+          {ui.sectionTitle ?? "Formación Académica"}
         </h2>
         <div className="mt-1 h-0.5 w-10 rounded-full bg-primary" aria-hidden="true" />
       </header>
@@ -24,7 +27,7 @@ function Education({ data }) {
             as="h3"
             className="mb-4 text-outline"
           >
-            TÍTULOS Y GRADOS
+            {ui.degrees ?? "TÍTULOS Y GRADOS"}
           </MetaLabel>
           <div className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {degreeItems.map((item) => (
@@ -43,7 +46,7 @@ function Education({ data }) {
             as="h3"
             className="mb-4 text-outline"
           >
-            CERTIFICACIONES & CURSOS
+            {ui.certsAndCourses ?? "CERTIFICACIONES & CURSOS"}
           </MetaLabel>
 
           <div className="space-y-6">
@@ -52,7 +55,7 @@ function Education({ data }) {
                 as="h4"
                 className="mb-3 text-outline"
               >
-                CERTIFICACIONES
+                {ui.certifications ?? "CERTIFICACIONES"}
               </MetaLabel>
               <div className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {certificationItems.map((item) => (
@@ -60,6 +63,7 @@ function Education({ data }) {
                     key={`${item.title}-${item.period}`}
                     item={item}
                     accent="green"
+                    ui={ui}
                   />
                 ))}
               </div>
@@ -70,7 +74,7 @@ function Education({ data }) {
                 as="h4"
                 className="mb-3 text-outline"
               >
-                CURSOS
+                {ui.courses ?? "CURSOS"}
               </MetaLabel>
               <div className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {courseItems.map((item) => (
@@ -78,6 +82,7 @@ function Education({ data }) {
                     key={`${item.title}-${item.period}`}
                     item={item}
                     accent="purple"
+                    ui={ui}
                   />
                 ))}
               </div>
@@ -129,7 +134,7 @@ function DegreeCard({ item }) {
   );
 }
 
-function CertCourseCard({ item, accent }) {
+function CertCourseCard({ item, accent, ui }) {
   const accentTokens =
     accent === "purple"
       ? {
@@ -186,7 +191,7 @@ function CertCourseCard({ item, accent }) {
             rel="noreferrer"
             className={`inline-flex items-center gap-1 rounded-md border px-3 py-1.5 font-label text-xs uppercase ${accentTokens.credentialActive}`}
           >
-            Ver credencial ↗
+            {ui?.viewCredential ?? "Ver credencial ↗"}
           </a>
         ) : (
           <button
@@ -194,7 +199,7 @@ function CertCourseCard({ item, accent }) {
             disabled
             className="inline-flex cursor-default items-center gap-1 rounded-md border border-outline-variant bg-surface-container-high px-3 py-1.5 font-label text-xs uppercase text-outline"
           >
-            Próximamente
+            {ui?.comingSoon ?? "Próximamente"}
           </button>
         )}
       </footer>

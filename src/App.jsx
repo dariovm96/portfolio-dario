@@ -7,20 +7,12 @@ import Education from "./components/Education";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import content from "./data/content";
+import { useLanguage } from "./contexts/LanguageContext";
 import { getSetupDeps } from "./lib/setupDeps";
-
-const defaultNavItems = [
-  { label: "Sobre mí", href: "#about" },
-  { label: "Proyectos", href: "#projects" },
-  { label: "Habilidades", href: "#skills" },
-  { label: "Experiencia", href: "#experience" },
-  { label: "Educación", href: "#education" },
-  { label: "Contacto", href: "#contact" },
-];
 
 function App() {
   getSetupDeps();
+  const { content } = useLanguage();
 
   const heroData = {
     fullName: content?.hero?.fullName ?? "",
@@ -64,15 +56,7 @@ function App() {
     copyright: content?.footer?.copyright ?? "",
   };
 
-  const navDataSource = Array.isArray(content?.nav) ? content.nav : [];
-  const navData = defaultNavItems.map((fallbackItem) => {
-    const matched = navDataSource.find((item) => item?.href === fallbackItem.href);
-
-    return {
-      href: fallbackItem.href,
-      label: matched?.label || fallbackItem.label,
-    };
-  });
+  const navData = Array.isArray(content?.nav) ? content.nav : [];
 
   const brandLabel = heroData.fullName.trim();
   const brandData = brandLabel
@@ -88,10 +72,10 @@ function App() {
       <main>
         <Hero data={heroData} />
         <About data={aboutData} />
-        <Projects data={projectsData} />
         <Skills data={skillsData} />
         <Experience data={experienceData} />
         <Education data={educationData} />
+        <Projects data={projectsData} />
         <Contact data={contactData} />
       </main>
       <Footer data={footerData} />

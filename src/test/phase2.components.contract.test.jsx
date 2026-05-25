@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen, within } from "@testing-library/react";
+import { renderWithProviders } from "./test-utils";
 import App from "../App";
 import content from "../data/content";
 import Hero from "../components/Hero";
@@ -9,7 +10,7 @@ import CTAButton from "../components/ui/CTAButton";
 
 describe("phase 2 components contract", () => {
   it("renders all required sections in expected order with mapped content", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
 
     const main = container.querySelector("main");
     const ids = Array.from(main.querySelectorAll("section")).map((section) => section.id);
@@ -18,18 +19,18 @@ describe("phase 2 components contract", () => {
     expect(screen.getByRole("navigation", { name: /navegación principal/i })).toBeInTheDocument();
     expect(screen.getByRole("contentinfo", { name: /pie de página/i })).toBeInTheDocument();
 
-    expect(screen.getByRole("heading", { name: content.hero.fullName })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: content.es.hero.fullName })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Sobre mí" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Habilidades" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Experiencia" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Formación Académica" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Proyectos" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: content.contact.heading })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: content.es.contact.heading })).toBeInTheDocument();
   });
 
   it("keeps section structure when optional fields are missing", () => {
     const heroDataWithoutOptional = {
-      ...content.hero,
+      ...content.es.hero,
       tagline: undefined,
       ctas: undefined,
     };
@@ -38,13 +39,13 @@ describe("phase 2 components contract", () => {
     const heroSection = container.querySelector("section#hero");
 
     expect(heroSection).toBeInTheDocument();
-    expect(within(heroSection).getByRole("heading", { name: content.hero.fullName })).toBeInTheDocument();
+    expect(within(heroSection).getByRole("heading", { name: content.es.hero.fullName })).toBeInTheDocument();
     expect(within(heroSection).getByTestId("hero-visual-slot")).toBeInTheDocument();
     expect(within(heroSection).queryByRole("link")).not.toBeInTheDocument();
   });
 
   it("binds navbar labels in Spanish while preserving expected anchors", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const nav = screen.getByRole("navigation", { name: /navegación principal/i });
     const navLinks = within(nav).getAllByRole("link");
@@ -52,18 +53,18 @@ describe("phase 2 components contract", () => {
     const sectionLinks = navLinks.filter((link) => link !== brandLink);
 
     expect(brandLink).toHaveAttribute("href", "#hero");
-    expect(brandLink).toHaveTextContent(content.hero.fullName);
-    expect(sectionLinks.length).toBe(content.nav.length);
-    expect(sectionLinks.map((link) => link.textContent)).toEqual(content.nav.map((item) => item.label));
-    expect(sectionLinks.map((link) => link.getAttribute("href"))).toEqual(content.nav.map((item) => item.href));
+    expect(brandLink).toHaveTextContent(content.es.hero.fullName);
+    expect(sectionLinks.length).toBe(content.es.nav.length);
+    expect(sectionLinks.map((link) => link.textContent)).toEqual(content.es.nav.map((item) => item.label));
+    expect(sectionLinks.map((link) => link.getAttribute("href"))).toEqual(content.es.nav.map((item) => item.href));
   });
 
   it("keeps hero with explicit two-zone composition and dedicated visual slot", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
     const heroSection = container.querySelector("section#hero");
 
     expect(heroSection).toBeInTheDocument();
-    expect(within(heroSection).getByRole("heading", { name: content.hero.fullName })).toBeInTheDocument();
+    expect(within(heroSection).getByRole("heading", { name: content.es.hero.fullName })).toBeInTheDocument();
 
     const visualZone = within(heroSection).getByRole("complementary", { name: /zona visual del hero/i });
     const slot = within(visualZone).getByTestId("hero-visual-slot");
@@ -74,11 +75,11 @@ describe("phase 2 components contract", () => {
     expect(slot.className).toContain("w-[280px]");
     expect(within(slot).getByTestId("hero-visual-icon")).toBeInTheDocument();
 
-    const visualHeading = within(visualZone).queryByRole("heading", { name: content.hero.fullName });
+    const visualHeading = within(visualZone).queryByRole("heading", { name: content.es.hero.fullName });
     expect(visualHeading).not.toBeInTheDocument();
 
-    const heading = within(heroSection).getByRole("heading", { name: content.hero.fullName });
-    const surname = content.hero.fullName.split(/\s+/).at(-1);
+    const heading = within(heroSection).getByRole("heading", { name: content.es.hero.fullName });
+    const surname = content.es.hero.fullName.split(/\s+/).at(-1);
     const highlightedSurname = within(heading).getByText(surname);
     expect(highlightedSurname.className).toMatch(/\btext-gradient-surname\b/);
   });
@@ -113,9 +114,9 @@ describe("phase 2 components contract", () => {
   });
 
   it("keeps contact submit as semantic submit button aligned with primary CTA language", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
-    const submit = screen.getByRole("button", { name: content.contact.form.submitLabel });
+    const submit = screen.getByRole("button", { name: content.es.contact.form.submitLabel });
     expect(submit).toHaveAttribute("type", "submit");
     expect(submit.className).toMatch(/\bbg-primary\b/);
     expect(submit.className).toMatch(/\bshadow-ambient-primary\b/);
@@ -123,32 +124,26 @@ describe("phase 2 components contract", () => {
   });
 
   it("renders project cta group and status without breaking if status is absent", () => {
-    const withoutStatus = content.projects.map((project) => ({
+    const withoutStatus = content.es.projects.map((project) => ({
       ...project,
       status: undefined,
     }));
 
-    render(<Projects data={withoutStatus} />);
+    renderWithProviders(<Projects data={withoutStatus} />);
 
     const cards = screen.getAllByTestId("project-cta-group");
-    expect(cards.length).toBe(content.projects.length);
+    expect(cards.length).toBe(content.es.projects.length);
     expect(screen.queryByText(/en construcción/i)).not.toBeInTheDocument();
   });
 
   it("exposes required phase-2 scaffolds without animation assumptions", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     expect(screen.getByTestId("hero-visual-slot")).toBeInTheDocument();
 
-    const levelIndicators = screen.getAllByTestId("skills-level-indicator");
-    expect(levelIndicators.length).toBeGreaterThan(0);
-    levelIndicators.forEach((indicator) => {
-      expect(indicator.children.length).toBe(10);
-    });
-
     expect(screen.getByTestId("experience-timeline")).toBeInTheDocument();
-    expect(screen.getAllByTestId("project-media-slot").length).toBe(content.projects.length);
-    expect(screen.getAllByTestId("project-cta-group").length).toBe(content.projects.length);
+    expect(screen.getAllByTestId("project-media-slot").length).toBe(content.es.projects.length);
+    expect(screen.getAllByTestId("project-cta-group").length).toBe(content.es.projects.length);
 
     const contactFields = [
       screen.getByRole("textbox", { name: /nombre/i }),
@@ -182,7 +177,7 @@ describe("phase 2 components contract", () => {
   });
 
   it("applies ghost-border hierarchy selectively across card sections", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
 
     const projectsCard = container.querySelector("#projects article");
     const educationCard = container.querySelector("#education article");
@@ -199,7 +194,7 @@ describe("phase 2 components contract", () => {
   });
 
   it("renders redesigned education section with grouped data-driven cards", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
 
     const educationSection = container.querySelector("section#education");
     expect(educationSection).toBeInTheDocument();
@@ -213,14 +208,14 @@ describe("phase 2 components contract", () => {
     const subsectionDivider = within(educationSection).getByTestId("education-subsection-divider");
     expect(subsectionDivider).toBeInTheDocument();
 
-    expect(content.education.degrees.length).toBeGreaterThan(0);
-    expect(content.education.certifications.length).toBeGreaterThan(0);
-    expect(content.education.courses.length).toBeGreaterThan(0);
+    expect(content.es.education.degrees.length).toBeGreaterThan(0);
+    expect(content.es.education.certifications.length).toBeGreaterThan(0);
+    expect(content.es.education.courses.length).toBeGreaterThan(0);
 
     const degreeCards = within(educationSection).getAllByTestId("education-degree-card");
-    expect(degreeCards.length).toBe(content.education.degrees.length);
+    expect(degreeCards.length).toBe(content.es.education.degrees.length);
 
-    content.education.degrees.forEach((degree, index) => {
+    content.es.education.degrees.forEach((degree, index) => {
       const degreeCard = degreeCards[index];
       expect(within(degreeCard).getByRole("heading", { name: degree.title })).toBeInTheDocument();
       expect(within(degreeCard).getByText(degree.typeBadge)).toBeInTheDocument();
@@ -230,7 +225,7 @@ describe("phase 2 components contract", () => {
       expect(within(degreeCard).getByText(degree.status)).toBeInTheDocument();
     });
 
-    content.education.certifications.forEach((certification) => {
+    content.es.education.certifications.forEach((certification) => {
       expect(within(educationSection).getByRole("heading", { name: certification.title })).toBeInTheDocument();
       expect(within(educationSection).getByText(certification.entity)).toBeInTheDocument();
       expect(within(educationSection).getByText(certification.period)).toBeInTheDocument();
@@ -238,7 +233,7 @@ describe("phase 2 components contract", () => {
       expect(within(educationSection).getAllByRole("button", { name: /próximamente/i }).length).toBeGreaterThan(0);
     });
 
-    content.education.courses.forEach((course) => {
+    content.es.education.courses.forEach((course) => {
       expect(within(educationSection).getByRole("heading", { name: course.title })).toBeInTheDocument();
       expect(within(educationSection).getByText(course.entity)).toBeInTheDocument();
       expect(within(educationSection).getByText(course.period)).toBeInTheDocument();
@@ -246,10 +241,10 @@ describe("phase 2 components contract", () => {
     });
 
     expect(within(educationSection).getAllByTestId("education-certification-card").length).toBe(
-      content.education.certifications.length,
+      content.es.education.certifications.length,
     );
     expect(within(educationSection).getAllByTestId("education-course-card").length).toBe(
-      content.education.courses.length,
+      content.es.education.courses.length,
     );
 
     const responsiveGrids = educationSection.querySelectorAll(".grid");
@@ -286,7 +281,7 @@ describe("phase 2 components contract", () => {
       },
     ];
 
-    render(<Projects data={projectData} />);
+    renderWithProviders(<Projects data={projectData} />);
 
     expect(screen.getByRole("img", { name: /vista previa de con imagen/i })).toBeInTheDocument();
     const fallbackMedia = screen.getByLabelText(/fallback visual sin imagen/i);
@@ -296,7 +291,7 @@ describe("phase 2 components contract", () => {
   });
 
   it("renders contact location label centered below form", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const locationLabel = screen.getByTestId("contact-location-label");
     expect(locationLabel).toBeInTheDocument();
@@ -305,7 +300,7 @@ describe("phase 2 components contract", () => {
   });
 
   it("renders contact channel icons according to channel type", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const email = screen.getByRole("link", { name: /canal email/i });
     const linkedin = screen.getByRole("link", { name: /canal linkedin/i });

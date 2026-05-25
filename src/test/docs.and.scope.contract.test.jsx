@@ -156,12 +156,12 @@ describe("documentation and setup-scope contracts", () => {
   });
 
   it("renders Contact structure unchanged plus deterministic submit feedback states", () => {
-    render(<Contact data={content.contact} />);
+    render(<Contact data={content.es.contact} />);
 
-    expect(screen.getByRole("heading", { name: content.contact.heading })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: content.es.contact.heading })).toBeInTheDocument();
     expect(screen.getByRole("form", { name: "Formulario de contacto" })).toBeInTheDocument();
 
-    const button = screen.getByRole("button", { name: content.contact.form.submitLabel });
+    const button = screen.getByRole("button", { name: content.es.contact.form.submitLabel });
     expect(button).toHaveAttribute("type", "submit");
     expect(button).not.toBeDisabled();
 

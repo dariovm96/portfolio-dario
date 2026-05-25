@@ -5,10 +5,13 @@ import { useMotionPrefs } from "../motion/useMotionPrefs";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
+import { useLanguage } from "../contexts/LanguageContext";
 
-function ExperienceCard({ item, reduce }) {
+function ExperienceCard({ item, reduce, ui }) {
   const [open, setOpen] = useState(false);
   const achievementsCount = item?.achievements?.length ?? 0;
+  const showLabel = (ui?.showAchievements ?? "Ver {n} logros").replace("{n}", achievementsCount);
+  const hideLabel = ui?.hideAchievements ?? "Ocultar logros";
 
   return (
     <CardShell as="article" className="overflow-hidden" richness="nested">
@@ -58,7 +61,7 @@ function ExperienceCard({ item, reduce }) {
         className="group flex w-full items-center justify-between gap-2 border-t border-outline-variant/20 px-4 py-3 md:px-5 transition-colors hover:bg-secondary/10"
       >
         <span className="text-xs font-semibold uppercase tracking-widest text-secondary transition-colors group-hover:text-secondary">
-          {open ? "Ocultar logros" : `Ver ${achievementsCount} logros`}
+          {open ? hideLabel : showLabel}
         </span>
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
@@ -83,15 +86,17 @@ function ExperienceCard({ item, reduce }) {
 
 function Experience({ data }) {
   const { reduce } = useMotionPrefs();
+  const { content } = useLanguage();
+  const ui = content?.ui?.experience ?? {};
   const experiences = Array.isArray(data) ? data : [];
   const containerMotion = getStaggerContainer(reduce);
 
   return (
-    <SectionShell id="experience" title="Experiencia" tone="section">
+    <SectionShell id="experience" title={ui.sectionTitle ?? "Experiencia"} tone="section">
       <motion.div className="mt-8 space-y-5" data-testid="experience-timeline" {...containerMotion}>
         {experiences.map((item, index) => (
           <motion.div
-            key={`${item.company}-${item.period}`}
+            key={index}
             className="grid grid-cols-[16px_1fr] gap-4 md:gap-5"
             {...getItemReveal(reduce, index * 0.025)}
           >
@@ -99,7 +104,7 @@ function Experience({ data }) {
               <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(193,128,255,0.7)]" />
               <span className="mt-2 h-full w-px bg-outline-variant/30" />
             </div>
-            <ExperienceCard item={item} reduce={reduce} />
+            <ExperienceCard item={item} reduce={reduce} ui={ui} />
           </motion.div>
         ))}
       </motion.div>

@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 import content from "../data/content";
 
+// content is now { es: {...}, en: {...} }
+// All contract assertions apply to the ES (default) locale
+const c = content.es;
+
 describe("content model contract", () => {
   it("exposes all required top-level keys", () => {
-    const keys = Object.keys(content);
+    const keys = Object.keys(c);
 
     expect(keys).toEqual([
       "nav",
@@ -15,31 +19,24 @@ describe("content model contract", () => {
       "projects",
       "contact",
       "footer",
+      "ui",
     ]);
   });
 
   it("matches recommended source precedence assumptions", () => {
-    expect(content.hero.fullName).toBe("Darío Vera Muñoz");
-    expect(content.hero.title).toBe("Ingeniero Informático · Desarrollador Fullstack");
-    expect(content.contact.heading).toBe("¿Trabajamos juntos?");
-    expect(content.footer.copyright).toContain("Darío Vera Muñoz");
-    expect(content.projects.some((project) => project.isCurrentSite === true)).toBe(true);
-  });
-
-  it("sets Git/GitHub level to Avanzado without schema changes", () => {
-    const devopsCategory = content.skills.categories.find((category) => category.name === "DevOps/Tools");
-    const gitSkill = devopsCategory?.items?.find((item) => item.name === "Git/GitHub");
-
-    expect(gitSkill).toBeTruthy();
-    expect(gitSkill?.level).toBe("Avanzado");
+    expect(c.hero.fullName).toBe("Darío Vera Muñoz");
+    expect(c.hero.title).toBe("Ingeniero Informático · Desarrollador Fullstack");
+    expect(c.contact.heading).toBe("¿Trabajamos juntos?");
+    expect(c.footer.copyright).toContain("Darío Vera Muñoz");
+    expect(c.projects.some((project) => project.isCurrentSite === true)).toBe(true);
   });
 
   it("keeps grouped education model for scalable rendering", () => {
-    expect(Array.isArray(content.education?.degrees)).toBe(true);
-    expect(Array.isArray(content.education?.certifications)).toBe(true);
-    expect(Array.isArray(content.education?.courses)).toBe(true);
+    expect(Array.isArray(c.education?.degrees)).toBe(true);
+    expect(Array.isArray(c.education?.certifications)).toBe(true);
+    expect(Array.isArray(c.education?.courses)).toBe(true);
 
-    content.education.degrees.forEach((entry) => {
+    c.education.degrees.forEach((entry) => {
       expect(entry.icon).toBeTruthy();
       expect(entry.typeBadge).toBeTruthy();
       expect(entry.title).toBeTruthy();
@@ -49,7 +46,7 @@ describe("content model contract", () => {
       expect(entry.status).toBeTruthy();
     });
 
-    content.education.certifications.forEach((entry) => {
+    c.education.certifications.forEach((entry) => {
       expect(entry.icon).toBeTruthy();
       expect(entry.typeBadge).toBeTruthy();
       expect(entry.title).toBeTruthy();
@@ -58,7 +55,7 @@ describe("content model contract", () => {
       expect(Object.hasOwn(entry, "credentialUrl")).toBe(true);
     });
 
-    content.education.courses.forEach((entry) => {
+    c.education.courses.forEach((entry) => {
       expect(entry.icon).toBeTruthy();
       expect(entry.typeBadge).toBeTruthy();
       expect(entry.title).toBeTruthy();

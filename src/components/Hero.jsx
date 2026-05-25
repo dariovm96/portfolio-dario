@@ -68,6 +68,8 @@ function Hero({ data }) {
           <img
             src={profilePhoto}
             alt="Foto de perfil"
+            data-testid="hero-visual-icon"
+            aria-hidden="true"
             className="h-full w-full object-cover object-top"
           />
         </motion.div>

@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
+import { renderWithProviders } from "./test-utils";
 import App from "../App";
 
 describe("App skeleton composition", () => {
   it("renders app sections in expected order and presence", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
 
     const main = container.querySelector("main");
     expect(main).toBeInTheDocument();
@@ -25,7 +26,7 @@ describe("App skeleton composition", () => {
   });
 
   it("links navbar items to required section anchors", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const nav = screen.getByRole("navigation", { name: /navegación principal/i });
     const links = within(nav).getAllByRole("link");

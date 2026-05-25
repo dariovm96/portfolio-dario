@@ -4,6 +4,7 @@ import { useMotionPrefs } from "../motion/useMotionPrefs";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
+import { useLanguage } from "../contexts/LanguageContext";
 
 function SkillChip({ name, icon, color, iconUrl }) {
   const resolvedSrc = iconUrl
@@ -37,18 +38,20 @@ function SkillChip({ name, icon, color, iconUrl }) {
 
 function Skills({ data }) {
   const { reduce } = useMotionPrefs();
+  const { content } = useLanguage();
+  const ui = content?.ui?.skills ?? {};
   const categories = Array.isArray(data?.categories) ? data.categories : [];
   const containerMotion = getStaggerContainer(reduce);
 
   return (
-    <SectionShell id="skills" title="Habilidades" tone="base">
+    <SectionShell id="skills" title={ui.sectionTitle ?? "Habilidades"} tone="base">
       <motion.div
         className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
         data-testid="skills-reveal-container"
         {...containerMotion}
       >
         {categories.map((category, index) => (
-          <motion.div key={category.name} {...getItemReveal(reduce, index * 0.03)}>
+          <motion.div key={index} {...getItemReveal(reduce, index * 0.03)}>
             <CardShell as="article" className="space-y-3 p-4 md:p-5 h-full" richness="nested">
               <MetaLabel as="h3" className="text-primary">
                 {category.name}

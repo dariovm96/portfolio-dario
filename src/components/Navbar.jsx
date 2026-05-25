@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { scrollToSection } from '../utils/smoothScroll'
+import LanguageToggle from './ui/LanguageToggle'
 
 function Navbar({ data = [], brand = null }) {
   const hasBrand = Boolean(brand?.label && brand?.href);
@@ -69,35 +70,34 @@ function Navbar({ data = [], brand = null }) {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((v) => !v)}
-            className="md:hidden flex flex-col justify-center items-center gap-[5px] p-2 rounded-lg tonal-layer-1 hover:tonal-layer-2 transition-colors"
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+            className="md:hidden flex flex-col justify-center items-center gap-[5px] p-2 rounded-lg tonal-layer-1 hover:tonal-layer-2 transition-colors transition-transform duration-200 bg-transparent border-0 cursor-pointer"
           >
             <span
               style={{
                 display: 'block', width: 20, height: 2,
                 background: menuOpen ? 'var(--primary)' : 'var(--on-surface-variant)',
                 borderRadius: 2,
-                transition: 'transform 0.2s ease, opacity 0.2s ease',
                 transform: menuOpen ? 'translateY(7px) rotate(45deg)' : 'none',
               }}
+              className="transition-transform duration-200"
             />
             <span
               style={{
                 display: 'block', width: 20, height: 2,
                 background: menuOpen ? 'var(--primary)' : 'var(--on-surface-variant)',
                 borderRadius: 2,
-                transition: 'opacity 0.15s ease',
                 opacity: menuOpen ? 0 : 1,
               }}
+              className="transition-opacity duration-150"
             />
             <span
               style={{
                 display: 'block', width: 20, height: 2,
                 background: menuOpen ? 'var(--primary)' : 'var(--on-surface-variant)',
                 borderRadius: 2,
-                transition: 'transform 0.2s ease',
                 transform: menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none',
               }}
+              className="transition-transform duration-200"
             />
           </button>
 
@@ -108,30 +108,30 @@ function Navbar({ data = [], brand = null }) {
               const isActive = activeSection === sectionId
               return (
                 <li key={item.href}>
-                  <button
-                    type="button"
-                    onClick={() => handleNavClick(sectionId)}
+                  <a
+                    href={item.href}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(sectionId) }}
                     aria-label={`Ir a sección ${item.label}`}
                     aria-current={isActive ? 'true' : undefined}
                     className={`nav-link${isActive ? ' is-active' : ''}`}
                   >
                     {item.label}
                     <span className="nav-underline" aria-hidden="true" />
-                  </button>
+                  </a>
                 </li>
               )
             })}
           </ul>
+          <LanguageToggle />
         </div>
 
         {/* ── Menú mobile desplegable ── */}
         <div
           id="mobile-menu"
           aria-hidden={!menuOpen}
+          className="overflow-hidden transition-[max-height] ease-in-out duration-300"
           style={{
-            overflow: 'hidden',
-            maxHeight: menuOpen ? `${data.length * 52}px` : '0',
-            transition: 'max-height 0.3s ease',
+            maxHeight: menuOpen ? `${data.length * 52 + 52}px` : '0',
           }}
         >
           <ul className="flex flex-col py-2 font-label" style={{ gap: '0.25rem' }}>
@@ -140,23 +140,22 @@ function Navbar({ data = [], brand = null }) {
               const isActive = activeSection === sectionId
               return (
                 <li key={item.href}>
-                  <button
-                    type="button"
-                    onClick={() => handleNavClick(sectionId)}
+                  <a
+                    href={item.href}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(sectionId) }}
                     aria-label={`Ir a sección ${item.label}`}
                     aria-current={isActive ? 'true' : undefined}
                     className={`nav-link w-full text-left py-3${isActive ? ' is-active' : ''}`}
-                    tabIndex={menuOpen ? 0 : -1}
                   >
                     {item.label}
                     <span className="nav-underline" aria-hidden="true" />
-                  </button>
+                  </a>
                 </li>
               )
             })}
+            <li className="pt-1"><LanguageToggle /></li>
           </ul>
         </div>
-
       </nav>
     </header>
   );

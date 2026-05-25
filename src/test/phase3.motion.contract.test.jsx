@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 
 vi.mock("framer-motion", async () => {
   const React = await import("react");
@@ -110,11 +110,13 @@ vi.mock("framer-motion", async () => {
 
   return {
     motion,
+    AnimatePresence: ({ children }) => children,
     useReducedMotion: () => false,
   };
 });
 
 import App from "../App";
+import { renderWithProviders } from "./test-utils";
 import { motionTokens } from "../motion/tokens";
 import {
   getCardInteract,
@@ -189,7 +191,7 @@ describe("phase 3 motion contract", () => {
   });
 
   it("keeps keyboard/touch parity and visible interaction affordances in CTA/projects/contact", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
 
     const ctas = screen.getAllByRole("link").filter((node) => node.hasAttribute("data-cta-variant"));
     expect(ctas.length).toBeGreaterThan(0);
@@ -217,7 +219,7 @@ describe("phase 3 motion contract", () => {
   });
 
   it("asserts viewport-entry reveal lifecycle reaches stable final visible state", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const heroReveal = screen.getByTestId("hero-reveal-block");
 
@@ -235,7 +237,7 @@ describe("phase 3 motion contract", () => {
   });
 
   it("asserts project-card hover enter/leave returns to base state", async () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const [firstCard] = screen.getAllByTestId("project-card-interactive");
     expect(firstCard).toBeInTheDocument();
@@ -254,7 +256,7 @@ describe("phase 3 motion contract", () => {
   });
 
   it("asserts CTA keyboard activation parity for Enter and Space", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const cta = screen
       .getAllByRole("link")
