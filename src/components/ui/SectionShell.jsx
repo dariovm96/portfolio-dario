@@ -26,7 +26,7 @@ function SectionShell({
       className={`${toneClasses[tone] ?? toneClasses.section} px-6 py-20 ${className}`.trim()}
       style={style}
     >
-      <div className={`mx-auto max-w-6xl ${containerClassName}`.trim()}>
+      <div className={`mx-auto max-w-7xl ${containerClassName}`.trim()}>
         {title ? <HeadingTag id={headingId} className="text-3xl font-headline font-semibold md:text-4xl">{title}</HeadingTag> : null}
         {children}
       </div>

@@ -48,7 +48,7 @@ function Navbar({ data = [], brand = null }) {
 
   return (
     <header className="sticky top-0 z-50 surface-glass nav-ghost-separator">
-      <nav aria-label="Navegación principal" className="mx-auto max-w-6xl px-6 py-3">
+      <nav aria-label="Navegación principal" className="mx-auto max-w-7xl px-6 py-3">
 
         {/* ── Row: brand + hamburger ── */}
         <div className="flex items-center justify-between">
