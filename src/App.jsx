@@ -72,10 +72,10 @@ function App() {
       <main>
         <Hero data={heroData} />
         <About data={aboutData} />
+        <Projects data={projectsData} />
         <Skills data={skillsData} />
         <Experience data={experienceData} />
         <Education data={educationData} />
-        <Projects data={projectsData} />
         <Contact data={contactData} />
       </main>
       <Footer data={footerData} />

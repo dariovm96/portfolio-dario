@@ -2,10 +2,10 @@ export const content = {
   es: {
     nav: [
       { label: "Sobre mí", href: "#about" },
+      { label: "Proyectos", href: "#projects" },
       { label: "Habilidades", href: "#skills" },
       { label: "Experiencia", href: "#experience" },
       { label: "Educación", href: "#education" },
-      { label: "Proyectos", href: "#projects" },
       { label: "Contacto", href: "#contact" },
     ],
     hero: {
@@ -249,10 +249,10 @@ export const content = {
   en: {
     nav: [
       { label: "About", href: "#about" },
+      { label: "Projects", href: "#projects" },
       { label: "Skills", href: "#skills" },
       { label: "Experience", href: "#experience" },
       { label: "Education", href: "#education" },
-      { label: "Projects", href: "#projects" },
       { label: "Contact", href: "#contact" },
     ],
     hero: {
