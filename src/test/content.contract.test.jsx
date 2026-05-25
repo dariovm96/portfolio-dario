@@ -23,7 +23,7 @@ describe("content model contract", () => {
     expect(content.hero.title).toBe("Ingeniero Informático · Desarrollador Fullstack");
     expect(content.contact.heading).toBe("¿Trabajamos juntos?");
     expect(content.footer.copyright).toContain("Darío Vera Muñoz");
-    expect(content.projects.some((project) => project.status === "En construcción")).toBe(true);
+    expect(content.projects.some((project) => project.isCurrentSite === true)).toBe(true);
   });
 
   it("sets Git/GitHub level to Avanzado without schema changes", () => {

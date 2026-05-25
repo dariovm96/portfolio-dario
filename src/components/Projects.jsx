@@ -29,8 +29,26 @@ function Projects({ data }) {
               richness="nested"
             >
               <ProjectMedia project={project} index={index} />
-              <h3 className="font-semibold text-on-surface">{project.name}</h3>
-              <p className="text-on-surface-variant">{project.description}</p>
+
+              <div className="flex items-baseline justify-between gap-2">
+                <h3 className="font-semibold text-on-surface">{project.name}</h3>
+                {project.year && (
+                  <MetaLabel className="shrink-0 text-outline">{project.year}</MetaLabel>
+                )}
+              </div>
+
+              <p className="text-sm text-on-surface-variant">{project.description}</p>
+
+              {Array.isArray(project.highlights) && project.highlights.length > 0 && (
+                <ul className="space-y-1.5">
+                  {project.highlights.map((h) => (
+                    <li key={h} className="flex items-start gap-2 text-sm text-on-surface-variant">
+                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               <div data-testid="project-meta-group" className="flex flex-wrap gap-2">
                 {(project?.tech ?? []).map((tech) => (
@@ -43,20 +61,29 @@ function Projects({ data }) {
                 ))}
               </div>
 
-              <div data-testid="project-cta-group" className="mt-auto flex flex-wrap gap-2">
-                <CTAButton
-                  href={project.githubUrl || "#"}
-                  label="GitHub"
-                  ariaLabel={`GitHub de ${project.name}`}
-                  variant="secondary"
-                />
-                <CTAButton
-                  href={project.demoUrl || "#"}
-                  label="Demo"
-                  ariaLabel={`Demo de ${project.name}`}
-                  variant="ghost"
-                />
-                {project.status ? <MetaLabel className="text-secondary">{project.status}</MetaLabel> : null}
+              <div data-testid="project-cta-group" className="mt-auto flex flex-wrap items-center gap-2">
+                {project.githubUrl && project.githubUrl !== "#" && (
+                  <CTAButton
+                    href={project.githubUrl}
+                    label="GitHub"
+                    ariaLabel={`GitHub de ${project.name}`}
+                    variant="secondary"
+                  />
+                )}
+                {project.demoUrl && project.demoUrl !== "#" && (
+                  <CTAButton
+                    href={project.demoUrl}
+                    label="Demo"
+                    ariaLabel={`Demo de ${project.name}`}
+                    variant="ghost"
+                  />
+                )}
+                {project.isCurrentSite && (
+                  <MetaLabel className="text-secondary">✦ Este sitio</MetaLabel>
+                )}
+                {project.status && (
+                  <MetaLabel className="text-outline">{project.status}</MetaLabel>
+                )}
               </div>
             </CardShell>
           </motion.div>
@@ -78,7 +105,8 @@ function ProjectMedia({ project, index }) {
         data-testid="project-media-slot"
         src={normalizedImageUrl}
         alt={`Vista previa de ${project.name}`}
-        className="h-32 w-full rounded-xl object-cover ring-1 ring-outline-variant/25"
+        className="h-48 w-full rounded-xl object-cover object-top ring-1 ring-outline-variant/25"
+        loading="lazy"
       />
     );
   }
@@ -86,7 +114,7 @@ function ProjectMedia({ project, index }) {
   return (
     <div
       data-testid="project-media-slot"
-      className={`project-fallback-media h-32 rounded-xl ring-1 ring-outline-variant/25 ${fallbackAccentClass}`}
+      className={`project-fallback-media h-48 rounded-xl ring-1 ring-outline-variant/25 ${fallbackAccentClass}`}
       aria-label={`Fallback visual ${project.name}`}
     >
       <p className="project-fallback-title">{project.name}</p>

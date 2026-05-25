@@ -159,26 +159,32 @@ export const content = {
   projects: [
     {
       name: "Sistema de Gestión ERP",
+      year: "2024",
       description:
         "Plataforma para administración de recursos y procesos operativos internos con foco en estabilidad y escalabilidad.",
       tech: ["Laravel", "MySQL"],
-      githubUrl: "#",
-      demoUrl: "#",
     },
     {
       name: "Portfolio React",
-      description: "Implementación actual del portfolio con enfoque en arquitectura frontend y experiencia editorial.",
-      tech: ["React", "Tailwind", "Framer Motion"],
-      githubUrl: "#",
-      demoUrl: "#",
-      status: "En construcción",
+      year: "2025",
+      description:
+        "Portfolio personal diseñado y desarrollado desde cero con enfoque en arquitectura frontend, animaciones accesibles y despliegue continuo.",
+      highlights: [
+        "Arquitectura component-driven inspirada en Atomic Design",
+        "Animaciones con Framer Motion respetando prefers-reduced-motion",
+        "Deploy continuo en Vercel con integración a rama main",
+        "Diseño mobile-first con Tailwind CSS y sistema de tokens de color",
+      ],
+      tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "EmailJS", "Vercel"],
+      imageUrl: "/images/projects/portfolio.png",
+      githubUrl: "https://github.com/dariovm96/portfolio-dario",
+      isCurrentSite: true,
     },
     {
       name: "API Gateway Custom",
+      year: "2024",
       description: "Orquestación de servicios para comunicación entre plataformas distribuidas.",
       tech: [".NET Core", "APIs REST"],
-      githubUrl: "#",
-      demoUrl: "#",
     },
   ],
   contact: {
