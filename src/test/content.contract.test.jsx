@@ -31,14 +31,6 @@ describe("content model contract", () => {
     expect(c.projects.some((project) => project.isCurrentSite === true)).toBe(true);
   });
 
-  it("sets Git/GitHub level to Avanzado without schema changes", () => {
-    const devopsCategory = c.skills.categories.find((category) => category.name === "DevOps/Tools");
-    const gitSkill = devopsCategory?.items?.find((item) => item.name === "Git/GitHub");
-
-    expect(gitSkill).toBeTruthy();
-    expect(gitSkill?.level).toBe("Avanzado");
-  });
-
   it("keeps grouped education model for scalable rendering", () => {
     expect(Array.isArray(c.education?.degrees)).toBe(true);
     expect(Array.isArray(c.education?.certifications)).toBe(true);

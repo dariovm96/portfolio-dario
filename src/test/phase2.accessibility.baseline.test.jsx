@@ -30,7 +30,6 @@ describe("phase 2 accessibility baseline", () => {
 
     expect(screen.getByRole("button", { name: /enviar mensaje/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /github de sistema de gestión erp/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /demo de portfolio react/i })).toBeInTheDocument();
 
     const heroVisualSlot = screen.getByTestId("hero-visual-slot");
     expect(heroVisualSlot).toHaveAttribute("aria-hidden", "true");

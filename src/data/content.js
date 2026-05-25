@@ -164,6 +164,7 @@ export const content = {
         description:
           "Plataforma para administración de recursos y procesos operativos internos con foco en estabilidad y escalabilidad.",
         tech: ["Laravel", "MySQL"],
+        githubUrl: "https://github.com/dariovm96/erp-gestion",
       },
       {
         name: "Portfolio React",
@@ -423,12 +424,12 @@ export const content = {
           "Mobile-first design with Tailwind CSS and a color token system",
         ],
         tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "EmailJS", "Vercel"],
-        imageUrl: "/images/projects/portfolio.png",
-        githubUrl: "https://github.com/dariovm96/portfolio-dario",
-        isCurrentSite: true,
-      },
-      {
-        name: "Custom API Gateway",
+         imageUrl: "/images/projects/portfolio.png",
+         githubUrl: "https://github.com/dariovm96/portfolio-dario",
+         isCurrentSite: true,
+       },
+       {
+         name: "Custom API Gateway",
         year: "2024",
         description: "Service orchestration for communication between distributed platforms.",
         tech: [".NET Core", "REST APIs"],

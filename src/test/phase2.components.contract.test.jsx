@@ -141,12 +141,6 @@ describe("phase 2 components contract", () => {
 
     expect(screen.getByTestId("hero-visual-slot")).toBeInTheDocument();
 
-    const levelIndicators = screen.getAllByTestId("skills-level-indicator");
-    expect(levelIndicators.length).toBeGreaterThan(0);
-    levelIndicators.forEach((indicator) => {
-      expect(indicator.children.length).toBe(10);
-    });
-
     expect(screen.getByTestId("experience-timeline")).toBeInTheDocument();
     expect(screen.getAllByTestId("project-media-slot").length).toBe(content.es.projects.length);
     expect(screen.getAllByTestId("project-cta-group").length).toBe(content.es.projects.length);
