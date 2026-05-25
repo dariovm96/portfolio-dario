@@ -40,10 +40,10 @@ describe("Contact form EmailJS flow", () => {
   it("transitions idle -> sending -> success on successful submit", async () => {
     const deferred = createDeferred();
     sendContactEmail.mockReturnValueOnce(deferred.promise);
-    render(<Contact data={content.contact} />);
+    render(<Contact data={content.es.contact} />);
 
     fillRequiredFields();
-    const submit = screen.getByRole("button", { name: content.contact.form.submitLabel });
+    const submit = screen.getByRole("button", { name: content.es.contact.form.submitLabel });
     fireEvent.click(submit);
 
     expect(sendContactEmail).toHaveBeenCalledTimes(1);
@@ -65,10 +65,10 @@ describe("Contact form EmailJS flow", () => {
 
   it("transitions idle -> sending -> error when dispatch fails", async () => {
     sendContactEmail.mockRejectedValueOnce(new Error("EMAILJS_SEND_FAILED"));
-    render(<Contact data={content.contact} />);
+    render(<Contact data={content.es.contact} />);
 
     fillRequiredFields();
-    fireEvent.click(screen.getByRole("button", { name: content.contact.form.submitLabel }));
+    fireEvent.click(screen.getByRole("button", { name: content.es.contact.form.submitLabel }));
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent("No se pudo enviar el mensaje. Inténtalo de nuevo.");
@@ -77,9 +77,9 @@ describe("Contact form EmailJS flow", () => {
   });
 
   it("blocks dispatch when required payload is missing", () => {
-    render(<Contact data={content.contact} />);
+    render(<Contact data={content.es.contact} />);
 
-    fireEvent.click(screen.getByRole("button", { name: content.contact.form.submitLabel }));
+    fireEvent.click(screen.getByRole("button", { name: content.es.contact.form.submitLabel }));
 
     expect(sendContactEmail).not.toHaveBeenCalled();
     expect(screen.queryByText("Enviando mensaje...")).not.toBeInTheDocument();
@@ -88,12 +88,12 @@ describe("Contact form EmailJS flow", () => {
   it("keeps submit flow unchanged when location label is present", async () => {
     const deferred = createDeferred();
     sendContactEmail.mockReturnValueOnce(deferred.promise);
-    render(<Contact data={content.contact} />);
+    render(<Contact data={content.es.contact} />);
 
     expect(screen.getByTestId("contact-location-label")).toHaveTextContent("📍 Valparaíso, Chile");
 
     fillRequiredFields();
-    const submit = screen.getByRole("button", { name: content.contact.form.submitLabel });
+    const submit = screen.getByRole("button", { name: content.es.contact.form.submitLabel });
     fireEvent.click(submit);
 
     expect(sendContactEmail).toHaveBeenCalledTimes(1);
@@ -109,10 +109,10 @@ describe("Contact form EmailJS flow", () => {
   it("prevents duplicate submit while request is in-flight", async () => {
     const deferred = createDeferred();
     sendContactEmail.mockReturnValueOnce(deferred.promise);
-    render(<Contact data={content.contact} />);
+    render(<Contact data={content.es.contact} />);
 
     fillRequiredFields();
-    const submit = screen.getByRole("button", { name: content.contact.form.submitLabel });
+    const submit = screen.getByRole("button", { name: content.es.contact.form.submitLabel });
 
     fireEvent.click(submit);
     fireEvent.click(submit);

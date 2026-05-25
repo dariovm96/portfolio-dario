@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import { renderWithProviders } from "./test-utils";
 import App from "../App";
 
 describe("phase 2 accessibility baseline", () => {
@@ -8,7 +9,7 @@ describe("phase 2 accessibility baseline", () => {
   });
 
   it("exposes landmarks and coherent heading hierarchy", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
 
     expect(screen.getByRole("navigation", { name: /navegación principal/i })).toBeInTheDocument();
     expect(screen.getByRole("main")).toBeInTheDocument();
@@ -21,7 +22,7 @@ describe("phase 2 accessibility baseline", () => {
   });
 
   it("keeps explicit labels and unambiguous accessible names on controls", () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     expect(screen.getByRole("textbox", { name: /nombre/i })).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
@@ -44,7 +45,7 @@ describe("phase 2 accessibility baseline", () => {
   });
 
   it("supports deterministic keyboard traversal evidence without trap", () => {
-    const { container } = render(<App />);
+    const { container } = renderWithProviders(<App />);
 
     const focusables = Array.from(
       container.querySelectorAll(
