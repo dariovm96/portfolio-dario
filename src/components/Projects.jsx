@@ -5,14 +5,17 @@ import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
 import CTAButton from "./ui/CTAButton";
+import { useLanguage } from "../contexts/LanguageContext";
 
 function Projects({ data }) {
   const { reduce, canHoverMotion } = useMotionPrefs();
+  const { content } = useLanguage();
+  const ui = content?.ui?.projects ?? {};
   const projects = Array.isArray(data) ? data : [];
   const sectionReveal = getSectionReveal(reduce);
 
   return (
-    <SectionShell id="projects" title="Proyectos" tone="section">
+    <SectionShell id="projects" title={ui.sectionTitle ?? "Proyectos"} tone="section">
       <motion.div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3" {...sectionReveal}>
         {projects.map((project, index) => (
           <motion.div
@@ -28,7 +31,7 @@ function Projects({ data }) {
               borderStyle="emphasis"
               richness="nested"
             >
-              <ProjectMedia project={project} index={index} />
+              <ProjectMedia project={project} index={index} ui={ui} />
 
               <div className="flex items-baseline justify-between gap-2">
                 <h3 className="font-semibold text-on-surface">{project.name}</h3>
@@ -65,21 +68,21 @@ function Projects({ data }) {
                 {project.githubUrl && project.githubUrl !== "#" && (
                   <CTAButton
                     href={project.githubUrl}
-                    label="GitHub"
-                    ariaLabel={`GitHub de ${project.name}`}
+                    label={ui.githubLabel ?? "GitHub"}
+                    ariaLabel={(ui.githubAriaLabel ?? "GitHub de {name}").replace("{name}", project.name)}
                     variant="secondary"
                   />
                 )}
                 {project.demoUrl && project.demoUrl !== "#" && (
                   <CTAButton
                     href={project.demoUrl}
-                    label="Demo"
-                    ariaLabel={`Demo de ${project.name}`}
+                    label={ui.demoLabel ?? "Demo"}
+                    ariaLabel={(ui.demoAriaLabel ?? "Demo de {name}").replace("{name}", project.name)}
                     variant="ghost"
                   />
                 )}
                 {project.isCurrentSite && (
-                  <MetaLabel className="text-secondary">✦ Este sitio</MetaLabel>
+                  <MetaLabel className="text-secondary">{ui.thisSite ?? "✦ Este sitio"}</MetaLabel>
                 )}
                 {project.status && (
                   <MetaLabel className="text-outline">{project.status}</MetaLabel>
@@ -93,7 +96,7 @@ function Projects({ data }) {
   );
 }
 
-function ProjectMedia({ project, index }) {
+function ProjectMedia({ project, index, ui }) {
   const normalizedImageUrl = typeof project?.imageUrl === "string" ? project.imageUrl.trim() : "";
   const hasImage = normalizedImageUrl.length > 0;
   const fallbackAccentClass = index % 2 === 0 ? "project-fallback-accent-primary" : "project-fallback-accent-secondary";
@@ -104,7 +107,7 @@ function ProjectMedia({ project, index }) {
       <img
         data-testid="project-media-slot"
         src={normalizedImageUrl}
-        alt={`Vista previa de ${project.name}`}
+        alt={(ui?.imageAlt ?? "Vista previa de {name}").replace("{name}", project.name)}
         className="h-48 w-full rounded-xl object-cover object-top ring-1 ring-outline-variant/25"
         loading="lazy"
       />
@@ -115,7 +118,7 @@ function ProjectMedia({ project, index }) {
     <div
       data-testid="project-media-slot"
       className={`project-fallback-media h-48 rounded-xl ring-1 ring-outline-variant/25 ${fallbackAccentClass}`}
-      aria-label={`Fallback visual ${project.name}`}
+      aria-label={(ui?.fallbackAlt ?? "Fallback visual {name}").replace("{name}", project.name)}
     >
       <p className="project-fallback-title">{project.name}</p>
       <span className="project-fallback-chip">{fallbackTech}</span>
