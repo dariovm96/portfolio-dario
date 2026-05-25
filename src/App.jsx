@@ -12,10 +12,10 @@ import { getSetupDeps } from "./lib/setupDeps";
 
 const defaultNavItems = [
   { label: "Sobre mí", href: "#about" },
+  { label: "Proyectos", href: "#projects" },
   { label: "Habilidades", href: "#skills" },
   { label: "Experiencia", href: "#experience" },
   { label: "Educación", href: "#education" },
-  { label: "Proyectos", href: "#projects" },
   { label: "Contacto", href: "#contact" },
 ];
 
@@ -88,10 +88,10 @@ function App() {
       <main>
         <Hero data={heroData} />
         <About data={aboutData} />
+        <Projects data={projectsData} />
         <Skills data={skillsData} />
         <Experience data={experienceData} />
         <Education data={educationData} />
-        <Projects data={projectsData} />
         <Contact data={contactData} />
       </main>
       <Footer data={footerData} />

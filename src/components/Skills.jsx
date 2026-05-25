@@ -5,24 +5,33 @@ import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
 
-const LEVEL_WEIGHT = {
-  Aprendiendo: 3,
-  Intermedio: 6,
-  Avanzado: 9,
-};
+function SkillChip({ name, icon, color, iconUrl }) {
+  const resolvedSrc = iconUrl
+    ? iconUrl
+    : icon
+      ? `https://cdn.simpleicons.org/${icon}/${color ?? 'a8abb3'}`
+      : null;
 
-function LevelBlocks({ level }) {
-  const activeBlocks = LEVEL_WEIGHT[level] ?? 5;
+  if (!resolvedSrc) {
+    return (
+      <li className="flex items-center justify-center rounded-lg bg-surface-container-high/60 px-2 py-2.5 w-[76px] sm:w-[84px] ring-1 ring-outline-variant/15 transition-colors hover:bg-surface-container-highest/80 hover:ring-outline-variant/30">
+        <span className="text-xs font-medium text-on-surface-variant text-center leading-tight">{name}</span>
+      </li>
+    );
+  }
 
   return (
-    <div className="mt-1.5 flex flex-wrap gap-1" data-testid="skills-level-indicator" aria-label={`Nivel ${level}`}>
-      {Array.from({ length: 10 }).map((_, index) => (
-        <span
-          key={`level-${index}`}
-          className={`h-1.5 w-3.5 rounded-[2px] ${index < activeBlocks ? "bg-primary" : "bg-outline-variant/30"}`}
-        />
-      ))}
-    </div>
+    <li title={name} className="flex flex-col items-center gap-1.5 rounded-lg bg-surface-container-high/60 px-2 py-2.5 w-[76px] sm:w-[84px] ring-1 ring-outline-variant/15 transition-colors hover:bg-surface-container-highest/80 hover:ring-outline-variant/30">
+      <img
+        src={resolvedSrc}
+        alt=""
+        aria-hidden="true"
+        width={36}
+        height={36}
+        loading="lazy"
+      />
+      <span className="text-xs font-medium text-on-surface-variant text-center leading-tight">{name}</span>
+    </li>
   );
 }
 
@@ -33,24 +42,28 @@ function Skills({ data }) {
 
   return (
     <SectionShell id="skills" title="Habilidades" tone="base">
-      <motion.div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3" data-testid="skills-reveal-container" {...containerMotion}>
+      <motion.div
+        className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+        data-testid="skills-reveal-container"
+        {...containerMotion}
+      >
         {categories.map((category, index) => (
           <motion.div key={category.name} {...getItemReveal(reduce, index * 0.03)}>
-            <CardShell as="article" className="space-y-3 p-4 md:p-5" richness="nested">
-            <MetaLabel as="h3" className="text-primary">
-              {category.name}
-            </MetaLabel>
-            <ul className="space-y-2.5">
-              {(category?.items ?? []).map((item) => (
-                <li key={item.name} className="rounded-lg bg-surface-container-high/60 tonal-layer-2 p-2.5 ring-1 ring-outline-variant/15">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-medium text-on-surface">{item.name}</p>
-                    <MetaLabel className="text-[10px] text-outline">{item.badge || item.level}</MetaLabel>
-                  </div>
-                  <LevelBlocks level={item.level} />
-                </li>
-              ))}
-            </ul>
+            <CardShell as="article" className="space-y-3 p-4 md:p-5 h-full" richness="nested">
+              <MetaLabel as="h3" className="text-primary">
+                {category.name}
+              </MetaLabel>
+              <ul className="flex flex-wrap gap-2">
+                {(category?.items ?? []).map((item) => (
+                  <SkillChip
+                    key={item.name}
+                    name={item.name}
+                    icon={item.icon}
+                    color={item.color}
+                    iconUrl={item.iconUrl}
+                  />
+                ))}
+              </ul>
             </CardShell>
           </motion.div>
         ))}

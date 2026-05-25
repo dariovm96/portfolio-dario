@@ -19,51 +19,67 @@ export const content = {
   },
   about: {
     professionalSummary:
-      "Como Ingeniero Informático, me enfoco en construir soluciones escalables que resuelven problemas reales. Trabajo principalmente en backend, bases de datos, PHP y Python/Django, mientras sigo fortaleciendo mi camino en React y frontend.",
+      "Como Ingeniero Informático, me especializo en backend con PHP y Python/Django, construyendo soluciones escalables y robustas. Últimamente he estado profundizando en automatización de procesos, un área que cada vez integro más a mi trabajo.",
     personalSummary:
-      "Fuera del código disfruto videojuegos, viajes y la vida en Chile junto a mis gatos, con raíces bien marcadas en Chiloé.",
-    interests: ["🎮 Gaming", "🐱 Gatos", "✈️ Viajes", "🌿 Chiloé", "💻 Tech"],
+      "Fuera del código disfruto la música, videojuegos, viajes y la vida en Chile junto a mis gatos, amigos y familia.",
+    interests: ["🎮 Gaming", "🐱 Gatos", "✈️ Viajes", "💻 Tech"],
   },
   skills: {
     categories: [
       {
-        name: "Lenguajes",
+        name: "Frontend",
         items: [
-          { name: "PHP", level: "Intermedio" },
-          { name: "Python", level: "Intermedio" },
-          { name: "JavaScript", level: "Intermedio" },
-          { name: "Java", level: "Intermedio" },
-          { name: "C#", level: "Intermedio" },
+          { name: "JavaScript", icon: "javascript", color: "F7DF1E" },
+          { name: "React", icon: "react", color: "61DAFB" },
+          { name: "HTML5", icon: "html5", color: "E34F26" },
+          { name: "CSS3", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
+          { name: "Tailwind CSS", icon: "tailwindcss", color: "06B6D4" },
         ],
       },
       {
-        name: "Bases de datos",
-        items: [{ name: "MySQL", level: "Avanzado" }],
-      },
-      {
-        name: "Frameworks & APIs",
+        name: "Backend",
         items: [
-          { name: "Django", level: "Avanzado" },
-          { name: ".NET Core", level: "Avanzado" },
-          { name: "APIs RESTful", level: "Avanzado" },
+          { name: "PHP", icon: "php", color: "777BB4" },
+          { name: "Python", icon: "python", color: "4B8BBE" },
+          { name: "Java", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" },
+          { name: "C#", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" },
         ],
       },
       {
-        name: "DevOps/Tools",
+        name: "Frameworks",
         items: [
-          { name: "Docker", level: "Intermedio" },
-          { name: "AWS EC2", level: "Intermedio" },
-          { name: "Git/GitHub", level: "Avanzado" },
-          { name: "Linux", level: "Intermedio" },
+          { name: "Django", icon: "django", color: "44B78B" },
+          { name: ".NET Core", icon: "dotnet", color: "512BD4" },
+          { name: "Laravel", icon: "laravel", color: "FF2D20" },
         ],
       },
       {
-        name: "En aprendizaje",
-        items: [{ name: "React", level: "Aprendiendo", badge: "Aprendiendo 🚀" }],
+        name: "Base de Datos",
+        items: [
+          { name: "MySQL", icon: "mysql", color: "00758F" },
+          { name: "PostgreSQL", icon: "postgresql", color: "336791" },
+          { name: "Supabase", icon: "supabase", color: "3ECF8E" },
+        ],
       },
       {
-        name: "Metodologías",
-        items: [{ name: "Scrum", level: "Intermedio" }],
+        name: "Cloud & Deploy",
+        items: [
+          { name: "Docker", icon: "docker", color: "2496ED" },
+          { name: "AWS EC2", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
+          { name: "Vercel", icon: "vercel", color: "ffffff" },
+          { name: "Railway", icon: "railway", color: "ffffff" },
+        ],
+      },
+      {
+        name: "Herramientas",
+        items: [
+          { name: "Git", icon: "git", color: "F05032" },
+          { name: "GitHub", icon: "github", color: "ffffff" },
+          { name: "Linux", icon: "linux", color: "FCC624" },
+          { name: "n8n", icon: "n8n", color: "EA4B71" },
+          { name: "Postman", icon: "postman", color: "FF6C37" },
+          { name: "Scrum", icon: null },
+        ],
       },
     ],
   },
