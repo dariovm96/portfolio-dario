@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { getSectionReveal } from "../motion/variants";
 import { useMotionPrefs } from "../motion/useMotionPrefs";
+import { motionTokens } from "../motion/tokens";
 import { sendContactEmail } from "../lib/contactEmail";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
@@ -33,7 +34,7 @@ function ChannelIcon({ type }) {
 }
 
 function Contact({ data }) {
-  const { reduce } = useMotionPrefs();
+  const { reduce, canHoverMotion } = useMotionPrefs();
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -92,7 +93,11 @@ function Contact({ data }) {
       >
         <ul className="flex flex-wrap gap-3">
           {channels.map((channel) => (
-            <li key={channel.type}>
+            <motion.li
+              key={channel.type}
+              whileHover={canHoverMotion && !reduce ? { scale: 1.05, y: -2 } : undefined}
+              transition={{ duration: motionTokens.duration.fast, ease: "easeOut" }}
+            >
               <CTAButton
                 href={channel.href}
                 label={
@@ -105,7 +110,7 @@ function Contact({ data }) {
                 variant="ghost"
                 className="gap-2 px-4 py-2"
               />
-            </li>
+            </motion.li>
           ))}
         </ul>
 
@@ -120,7 +125,7 @@ function Contact({ data }) {
                   id={`contact-${field.name}`}
                   name={field.name}
                   aria-label={field.label}
-                  className="form-field-resting w-full rounded-xl p-3 text-on-surface"
+                  className="form-field-resting w-full rounded-xl p-3 text-on-surface focus:ring-2 focus:ring-primary/20 focus:outline-none"
                   rows={4}
                   required={field.required}
                   value={formValues[field.name] ?? ""}
@@ -132,7 +137,7 @@ function Contact({ data }) {
                   type={field.type}
                   name={field.name}
                   aria-label={field.label}
-                  className="form-field-resting w-full rounded-xl p-3 text-on-surface"
+                  className="form-field-resting w-full rounded-xl p-3 text-on-surface focus:ring-2 focus:ring-primary/20 focus:outline-none"
                   required={field.required}
                   value={formValues[field.name] ?? ""}
                   onChange={handleFieldChange(field.name)}

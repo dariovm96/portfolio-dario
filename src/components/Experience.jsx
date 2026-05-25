@@ -2,18 +2,25 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getItemReveal, getStaggerContainer } from "../motion/variants";
 import { useMotionPrefs } from "../motion/useMotionPrefs";
+import { motionTokens } from "../motion/tokens";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
 import { useLanguage } from "../contexts/LanguageContext";
 
 function ExperienceCard({ item, reduce, ui }) {
+  const { canHoverMotion } = useMotionPrefs();
   const [open, setOpen] = useState(false);
   const achievementsCount = item?.achievements?.length ?? 0;
   const showLabel = (ui?.showAchievements ?? "Ver {n} logros").replace("{n}", achievementsCount);
   const hideLabel = ui?.hideAchievements ?? "Ocultar logros";
 
   return (
+    <motion.div
+      whileHover={canHoverMotion && !reduce ? { boxShadow: "0 0 28px rgba(193,128,255,0.10)" } : undefined}
+      transition={{ duration: motionTokens.duration.fast, ease: "easeOut" }}
+      style={{ borderRadius: "var(--radius-card, 1rem)" }}
+    >
     <CardShell as="article" className="overflow-hidden" richness="nested">
       <div className="space-y-3.5 p-4 md:p-5">
         <h3 className="text-xl">{item.role}</h3>
@@ -26,12 +33,14 @@ function ExperienceCard({ item, reduce, ui }) {
         </p>
         <div className="flex flex-wrap gap-2 tonal-layer-2 rounded-lg p-2">
           {(item?.stack ?? []).map((stackItem) => (
-            <span
+            <motion.span
               key={stackItem}
               className="rounded-full bg-surface-container-high px-3 py-1 font-label text-xs uppercase text-on-surface-variant"
+              whileHover={canHoverMotion && !reduce ? { scale: 1.04, backgroundColor: "rgba(193,128,255,0.08)" } : undefined}
+              transition={{ duration: motionTokens.duration.fast, ease: "easeOut" }}
             >
               {stackItem}
-            </span>
+            </motion.span>
           ))}
         </div>
       </div>
@@ -81,6 +90,7 @@ function ExperienceCard({ item, reduce, ui }) {
         </motion.svg>
       </button>
     </CardShell>
+    </motion.div>
   );
 }
 

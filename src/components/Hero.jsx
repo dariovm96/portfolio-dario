@@ -8,7 +8,7 @@ import profilePhoto from "../assets/foto_perfil.png";
 import { scrollToSection } from "../utils/smoothScroll";
 
 function Hero({ data }) {
-  const { reduce } = useMotionPrefs();
+  const { reduce, canHoverMotion } = useMotionPrefs();
   const ctas = Array.isArray(data?.ctas) ? data.ctas : [];
   const fullName = typeof data?.fullName === "string" ? data.fullName.trim() : "";
   const nameParts = fullName ? fullName.split(/\s+/) : [];
@@ -64,6 +64,8 @@ function Hero({ data }) {
           aria-hidden="true"
           className="mx-auto flex h-[280px] w-[280px] items-center justify-center rounded-full bg-surface-container-low tonal-layer-1 ring-1 ring-outline-variant/25 shadow-ambient-secondary hero-visual-depth overflow-hidden"
           style={{ position: 'relative', zIndex: 3 }}
+          whileHover={canHoverMotion && !reduce ? { scale: 1.03, boxShadow: "0 0 0 3px rgba(107,255,143,0.30), 0 0 40px rgba(107,255,143,0.15)" } : undefined}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
           <img
             src={profilePhoto}

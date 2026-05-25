@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { getCardInteract, getSectionReveal } from "../motion/variants";
 import { useMotionPrefs } from "../motion/useMotionPrefs";
+import { motionTokens } from "../motion/tokens";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
@@ -23,6 +24,8 @@ function Projects({ data }) {
             data-testid="project-card-interactive"
             tabIndex={0}
             {...getCardInteract(reduce, canHoverMotion)}
+            initial={{ boxShadow: "0 2px 8px rgba(0,0,0,0.24)" }}
+            whileHover={canHoverMotion && !reduce ? { scale: 1.02, y: -4, boxShadow: "0 8px 32px rgba(107,255,143,0.10), 0 2px 8px rgba(0,0,0,0.32)" } : undefined}
           >
             <CardShell
               as="article"
@@ -55,12 +58,14 @@ function Projects({ data }) {
 
               <div data-testid="project-meta-group" className="flex flex-wrap gap-2">
                 {(project?.tech ?? []).map((tech) => (
-                  <span
+                  <motion.span
                     key={`${project.name}-${tech}`}
                     className="rounded-full bg-surface-container-low tonal-layer-2 px-3 py-1 font-label text-xs uppercase text-outline"
+                    whileHover={canHoverMotion && !reduce ? { scale: 1.04, backgroundColor: "rgba(107,255,143,0.08)" } : undefined}
+                    transition={{ duration: motionTokens.duration.fast, ease: "easeOut" }}
                   >
                     {tech}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
 

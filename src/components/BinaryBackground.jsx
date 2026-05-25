@@ -44,7 +44,7 @@ export default function BinaryBackground() {
 
           ctx.globalAlpha = b.alpha * fadeOut
           ctx.font        = `bold ${b.size}px "Courier New", monospace`
-          ctx.fillStyle   = b.purple ? '#a855f7' : '#22c55e'
+          ctx.fillStyle   = b.purple ? '#c180ff' : '#6bff8f'
           ctx.fillText(b.value.toString(), b.x, b.y)
         }
 

@@ -267,12 +267,12 @@ h6 {
 }
 
 .nav-link:hover {
-  color: #22c55e;
+  color: var(--primary);
   transform: scale(1.08);
 }
 
 .nav-link.is-active {
-  color: #22c55e;
+  color: var(--primary);
 }
 
 .nav-underline {
@@ -281,7 +281,7 @@ h6 {
   left: 0;
   width: 0%;
   height: 1.5px;
-  background: #22c55e;
+  background: var(--primary);
   border-radius: 2px;
   transition: width 0.25s ease;
   display: block;
