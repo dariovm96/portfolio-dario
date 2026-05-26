@@ -192,9 +192,9 @@ export const content = {
     contact: {
       heading: "¿Trabajamos juntos?",
       channels: [
-        { type: "email", label: "Email", href: "mailto:contacto@dariodvm.dev" },
-        { type: "linkedin", label: "LinkedIn", href: "#" },
-        { type: "github", label: "GitHub", href: "#" },
+        { type: "email", label: "Email", href: "mailto:darioveramunoz@gmail.com" },
+        { type: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/dario-veram" },
+        { type: "github", label: "GitHub", href: "https://github.com/dariovm96" },
       ],
       form: {
         fields: [
@@ -438,9 +438,9 @@ export const content = {
     contact: {
       heading: "Work together?",
       channels: [
-        { type: "email", label: "Email", href: "mailto:contacto@dariodvm.dev" },
-        { type: "linkedin", label: "LinkedIn", href: "#" },
-        { type: "github", label: "GitHub", href: "#" },
+        { type: "email", label: "Email", href: "mailto:darioveramunoz@gmail.com" },
+        { type: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/dario-veram" },
+        { type: "github", label: "GitHub", href: "https://github.com/dariovm96" },
       ],
       form: {
         fields: [

@@ -59,8 +59,8 @@ function ExperienceCard({ item, reduce, ui }) {
               {(item?.achievements ?? []).map((achievement, achievementIndex) => (
                 <motion.li
                   key={achievement}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={reduce ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
+                  animate={reduce ? undefined : { opacity: 1, x: 0 }}
                   transition={{
                     duration: 0.28,
                     delay: achievementIndex * 0.05,
@@ -124,24 +124,24 @@ function Experience({ data }) {
             <div className="flex flex-col items-center pt-2" aria-hidden="true">
               <motion.span
                 className="h-2 w-2 shrink-0 rounded-full bg-secondary shadow-[0_0_8px_rgba(193,128,255,0.7)]"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: [0, 1.4, 1] }}
+                initial={reduce ? { scale: 1 } : { scale: 0 }}
+                whileInView={reduce ? undefined : { scale: [0, 1.4, 1] }}
                 viewport={{ once: true }}
                 transition={{
-                  duration: 0.4,
-                  times: [0, 0.6, 1],
-                  ease: "easeOut",
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 15,
                   delay: index * 0.1,
                 }}
               />
               <motion.span
                 className="mt-2 w-px bg-outline-variant/30"
-                initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
+                initial={reduce ? { scaleY: 1 } : { scaleY: 0 }}
+                whileInView={reduce ? undefined : { scaleY: 1 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{
-                  duration: 0.55,
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: 0.8,
+                  ease: 'easeOut',
                   delay: index * 0.1,
                 }}
                 style={{ transformOrigin: "top", display: "block", height: "100%" }}

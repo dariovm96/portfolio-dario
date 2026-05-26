@@ -51,10 +51,8 @@ function Navbar({ data = [], brand = null }) {
       pillRef.current.style.opacity = '0'
       return
     }
-    const ulRect = navListRef.current.getBoundingClientRect()
-    const linkRect = activeLink.getBoundingClientRect()
-    pillRef.current.style.left = `${linkRect.left - ulRect.left}px`
-    pillRef.current.style.width = `${linkRect.width}px`
+    pillRef.current.style.left = `${activeLink.offsetLeft}px`
+    pillRef.current.style.width = `${activeLink.offsetWidth}px`
     pillRef.current.style.opacity = '1'
   }, [activeSection])
 
@@ -137,7 +135,7 @@ function Navbar({ data = [], brand = null }) {
                 </li>
               )
             })}
-            <div ref={pillRef} className="nav-active-pill" aria-hidden="true" />
+            <span ref={pillRef} className="nav-active-pill" aria-hidden="true" />
           </ul>
           <LanguageToggle />
         </div>
