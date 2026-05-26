@@ -154,7 +154,27 @@ function Contact({ data }) {
               reduce ? "motion-reduce-safe" : ""
             }`.trim()}
           >
-            {data?.form?.submitLabel}
+            {submitStatus === "sending" ? (
+              <motion.span
+                key="sending"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-2"
+              >
+                <span className="animate-spin inline-block h-3.5 w-3.5 rounded-full border-2 border-surface/40 border-t-primary" />
+                Enviando...
+              </motion.span>
+            ) : (
+              <motion.span
+                key="idle"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {data?.form?.submitLabel}
+              </motion.span>
+            )}
           </button>
 
           {submitStatus === "sending" ? (
@@ -168,15 +188,27 @@ function Contact({ data }) {
             </motion.p>
           ) : null}
           {submitStatus === "success" ? (
-            <motion.p
+            <motion.div
               role="status"
-              className="text-primary"
-              initial={{ opacity: 0.5 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: reduce ? 0.01 : 0.14 }}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              className="flex items-center gap-2 text-primary"
             >
-              Mensaje enviado con éxito.
-            </motion.p>
+              <svg viewBox="0 0 24 24" width={18} height={18} fill="none">
+                <motion.path
+                  d="M4 12l5 5 11-11"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+                />
+              </svg>
+              <span>Mensaje enviado con éxito.</span>
+            </motion.div>
           ) : null}
           {submitStatus === "error" ? (
             <motion.p

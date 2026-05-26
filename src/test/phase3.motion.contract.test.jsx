@@ -108,10 +108,18 @@ vi.mock("framer-motion", async () => {
     },
   );
 
+  const createMotionValue = (initial) => {
+    let val = initial ?? 0;
+    return { get: () => val, set: (v) => { val = v; }, onChange: () => () => {}, current: initial ?? 0 };
+  };
+
   return {
     motion,
     AnimatePresence: ({ children }) => children,
     useReducedMotion: () => false,
+    useMotionValue: (initial) => createMotionValue(initial),
+    useTransform: (_value, _inputRange, outputRange) => createMotionValue(outputRange?.[0] ?? 0),
+    useSpring: (value) => value,
   };
 });
 

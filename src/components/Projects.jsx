@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { getCardInteract, getSectionReveal } from "../motion/variants";
+import { getCardInteract, getCascadingGrid, getCascadingCard } from "../motion/variants";
 import { useMotionPrefs } from "../motion/useMotionPrefs";
+import { useCardTilt } from "../motion/useCardTilt";
 import { motionTokens } from "../motion/tokens";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
@@ -8,93 +9,111 @@ import MetaLabel from "./ui/MetaLabel";
 import CTAButton from "./ui/CTAButton";
 import { useLanguage } from "../contexts/LanguageContext";
 
+function ProjectCard({ project, index, ui, reduce, canHoverMotion }) {
+  const { rotateX, rotateY, onMouseMove, onMouseLeave } = useCardTilt(reduce, canHoverMotion);
+
+  return (
+    <motion.div
+      key={project.name}
+      data-testid="project-card-interactive"
+      tabIndex={0}
+      {...getCardInteract(reduce, canHoverMotion)}
+      {...getCascadingCard(reduce, index)}
+      initial={{ boxShadow: "0 2px 8px rgba(0,0,0,0.24)" }}
+      whileHover={canHoverMotion && !reduce ? { scale: 1.02, y: -4, boxShadow: "0 8px 32px rgba(107,255,143,0.10), 0 2px 8px rgba(0,0,0,0.32)" } : undefined}
+      style={{ rotateX, rotateY, transformPerspective: 1000 }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+    >
+      <CardShell
+        as="article"
+        className="flex h-full flex-col gap-4 tonal-layer-2"
+        tone="high"
+        borderStyle="emphasis"
+        richness="nested"
+      >
+        <ProjectMedia project={project} index={index} ui={ui} />
+
+        <div className="flex items-baseline justify-between gap-2">
+          <h3 className="font-semibold text-on-surface">{project.name}</h3>
+          {project.year && (
+            <MetaLabel className="shrink-0 text-outline">{project.year}</MetaLabel>
+          )}
+        </div>
+
+        <p className="text-sm text-on-surface-variant">{project.description}</p>
+
+        {Array.isArray(project.highlights) && project.highlights.length > 0 && (
+          <ul className="space-y-1.5">
+            {project.highlights.map((h) => (
+              <li key={h} className="flex items-start gap-2 text-sm text-on-surface-variant">
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
+                {h}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div data-testid="project-meta-group" className="flex flex-wrap gap-2">
+          {(project?.tech ?? []).map((tech) => (
+            <motion.span
+              key={`${project.name}-${tech}`}
+              className="rounded-full bg-surface-container-low tonal-layer-2 px-3 py-1 font-label text-xs uppercase text-outline"
+              whileHover={canHoverMotion && !reduce ? { scale: 1.04, backgroundColor: "rgba(107,255,143,0.08)" } : undefined}
+              transition={{ duration: motionTokens.duration.fast, ease: "easeOut" }}
+            >
+              {tech}
+            </motion.span>
+          ))}
+        </div>
+
+        <div data-testid="project-cta-group" className="mt-auto flex flex-wrap items-center gap-2">
+          {project.githubUrl && project.githubUrl !== "#" && (
+            <CTAButton
+              href={project.githubUrl}
+              label={ui.githubLabel ?? "GitHub"}
+              ariaLabel={(ui.githubAriaLabel ?? "GitHub de {name}").replace("{name}", project.name)}
+              variant="secondary"
+            />
+          )}
+          {project.demoUrl && project.demoUrl !== "#" && (
+            <CTAButton
+              href={project.demoUrl}
+              label={ui.demoLabel ?? "Demo"}
+              ariaLabel={(ui.demoAriaLabel ?? "Demo de {name}").replace("{name}", project.name)}
+              variant="ghost"
+            />
+          )}
+          {project.isCurrentSite && (
+            <MetaLabel className="text-secondary">{ui.thisSite ?? "✦ Este sitio"}</MetaLabel>
+          )}
+          {project.status && (
+            <MetaLabel className="text-outline">{project.status}</MetaLabel>
+          )}
+        </div>
+      </CardShell>
+    </motion.div>
+  );
+}
+
 function Projects({ data }) {
   const { reduce, canHoverMotion } = useMotionPrefs();
   const { content } = useLanguage();
   const ui = content?.ui?.projects ?? {};
   const projects = Array.isArray(data) ? data : [];
-  const sectionReveal = getSectionReveal(reduce);
 
   return (
     <SectionShell id="projects" title={ui.sectionTitle ?? "Proyectos"} tone="section">
-      <motion.div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3" {...sectionReveal}>
+      <motion.div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3" {...getCascadingGrid(reduce)}>
         {projects.map((project, index) => (
-          <motion.div
+          <ProjectCard
             key={project.name}
-            data-testid="project-card-interactive"
-            tabIndex={0}
-            {...getCardInteract(reduce, canHoverMotion)}
-            initial={{ boxShadow: "0 2px 8px rgba(0,0,0,0.24)" }}
-            whileHover={canHoverMotion && !reduce ? { scale: 1.02, y: -4, boxShadow: "0 8px 32px rgba(107,255,143,0.10), 0 2px 8px rgba(0,0,0,0.32)" } : undefined}
-          >
-            <CardShell
-              as="article"
-              className="flex h-full flex-col gap-4 tonal-layer-2"
-              tone="high"
-              borderStyle="emphasis"
-              richness="nested"
-            >
-              <ProjectMedia project={project} index={index} ui={ui} />
-
-              <div className="flex items-baseline justify-between gap-2">
-                <h3 className="font-semibold text-on-surface">{project.name}</h3>
-                {project.year && (
-                  <MetaLabel className="shrink-0 text-outline">{project.year}</MetaLabel>
-                )}
-              </div>
-
-              <p className="text-sm text-on-surface-variant">{project.description}</p>
-
-              {Array.isArray(project.highlights) && project.highlights.length > 0 && (
-                <ul className="space-y-1.5">
-                  {project.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-2 text-sm text-on-surface-variant">
-                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
-                      {h}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              <div data-testid="project-meta-group" className="flex flex-wrap gap-2">
-                {(project?.tech ?? []).map((tech) => (
-                  <motion.span
-                    key={`${project.name}-${tech}`}
-                    className="rounded-full bg-surface-container-low tonal-layer-2 px-3 py-1 font-label text-xs uppercase text-outline"
-                    whileHover={canHoverMotion && !reduce ? { scale: 1.04, backgroundColor: "rgba(107,255,143,0.08)" } : undefined}
-                    transition={{ duration: motionTokens.duration.fast, ease: "easeOut" }}
-                  >
-                    {tech}
-                  </motion.span>
-                ))}
-              </div>
-
-              <div data-testid="project-cta-group" className="mt-auto flex flex-wrap items-center gap-2">
-                {project.githubUrl && project.githubUrl !== "#" && (
-                  <CTAButton
-                    href={project.githubUrl}
-                    label={ui.githubLabel ?? "GitHub"}
-                    ariaLabel={(ui.githubAriaLabel ?? "GitHub de {name}").replace("{name}", project.name)}
-                    variant="secondary"
-                  />
-                )}
-                {project.demoUrl && project.demoUrl !== "#" && (
-                  <CTAButton
-                    href={project.demoUrl}
-                    label={ui.demoLabel ?? "Demo"}
-                    ariaLabel={(ui.demoAriaLabel ?? "Demo de {name}").replace("{name}", project.name)}
-                    variant="ghost"
-                  />
-                )}
-                {project.isCurrentSite && (
-                  <MetaLabel className="text-secondary">{ui.thisSite ?? "✦ Este sitio"}</MetaLabel>
-                )}
-                {project.status && (
-                  <MetaLabel className="text-outline">{project.status}</MetaLabel>
-                )}
-              </div>
-            </CardShell>
-          </motion.div>
+            project={project}
+            index={index}
+            ui={ui}
+            reduce={reduce}
+            canHoverMotion={canHoverMotion}
+          />
         ))}
       </motion.div>
     </SectionShell>
