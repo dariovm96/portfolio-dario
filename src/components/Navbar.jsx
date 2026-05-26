@@ -46,15 +46,35 @@ function Navbar({ data = [], brand = null }) {
   // Slides the active pill indicator to the active nav link
   useEffect(() => {
     if (!pillRef.current || !navListRef.current) return
-    const activeLink = navListRef.current.querySelector('a.is-active')
-    if (!activeLink) {
-      pillRef.current.style.opacity = '0'
-      return
+
+    const positionPill = () => {
+      if (!pillRef.current || !navListRef.current) return
+      const activeLink = navListRef.current.querySelector('a.is-active')
+      if (!activeLink) {
+        pillRef.current.style.opacity = '0'
+        return
+      }
+      pillRef.current.style.left = `${activeLink.offsetLeft}px`
+      pillRef.current.style.width = `${activeLink.offsetWidth}px`
+      pillRef.current.style.opacity = '1'
     }
-    pillRef.current.style.left = `${activeLink.offsetLeft}px`
-    pillRef.current.style.width = `${activeLink.offsetWidth}px`
-    pillRef.current.style.opacity = '1'
-  }, [activeSection])
+
+    // RAF ensures we read dimensions after the browser has reflowed
+    // (critical after language toggle — text changes width before reflow)
+    const rafId = requestAnimationFrame(positionPill)
+
+    // ResizeObserver repositions the pill when the nav container resizes
+    // (covers both language toggle text-width changes and window resize)
+    const ro = new ResizeObserver(() => {
+      requestAnimationFrame(positionPill)
+    })
+    ro.observe(navListRef.current)
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      ro.disconnect()
+    }
+  }, [activeSection, data])
 
   function handleNavClick(sectionId) {
     scrollToSection(sectionId)
