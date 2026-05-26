@@ -108,10 +108,18 @@ vi.mock("framer-motion", async () => {
     },
   );
 
+  const createMotionValue = (initial) => {
+    let val = initial ?? 0;
+    return { get: () => val, set: (v) => { val = v; }, onChange: () => () => {}, current: initial ?? 0 };
+  };
+
   return {
     motion,
     AnimatePresence: ({ children }) => children,
     useReducedMotion: () => false,
+    useMotionValue: (initial) => createMotionValue(initial),
+    useTransform: (_value, _inputRange, outputRange) => createMotionValue(outputRange?.[0] ?? 0),
+    useSpring: (value) => value,
   };
 });
 
@@ -180,12 +188,12 @@ describe("phase 3 motion contract", () => {
     const contact = readFileSync(resolve(process.cwd(), "src/components/Contact.jsx"), "utf8");
     const ctaButton = readFileSync(resolve(process.cwd(), "src/components/ui/CTAButton.jsx"), "utf8");
     const education = readFileSync(resolve(process.cwd(), "src/components/Education.jsx"), "utf8");
+    const about = readFileSync(resolve(process.cwd(), "src/components/About.jsx"), "utf8");
 
-    [hero, skills, experience, projects, contact, ctaButton].forEach((source) => {
+    [hero, skills, experience, projects, contact, ctaButton, education, about].forEach((source) => {
       expect(source).toMatch(/framer-motion/);
     });
 
-    expect(education).not.toMatch(/framer-motion/);
     expect(projects).not.toMatch(/useScroll|useTransform|parallax|cursor-follow/i);
     expect(contact).not.toMatch(/AnimatePresence|infinite|repeat\s*:\s*Infinity/i);
   });

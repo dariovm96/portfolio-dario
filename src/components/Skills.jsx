@@ -1,28 +1,66 @@
 import { motion } from "framer-motion";
-import { getItemReveal, getStaggerContainer } from "../motion/variants";
+import { getCardInteract, getStaggerContainer } from "../motion/variants";
 import { useMotionPrefs } from "../motion/useMotionPrefs";
+import { motionTokens } from "../motion/tokens";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
 import MetaLabel from "./ui/MetaLabel";
 import { useLanguage } from "../contexts/LanguageContext";
 
+const categoryVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1],
+      when: "beforeChildren",
+      staggerChildren: 0.04,
+    },
+  },
+};
+
+const chipVariants = {
+  hidden: { opacity: 0, scale: 0.7 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring", stiffness: 350, damping: 22 },
+  },
+};
+
 function SkillChip({ name, icon, color, iconUrl }) {
+  const { reduce, canHoverMotion } = useMotionPrefs();
   const resolvedSrc = iconUrl
     ? iconUrl
     : icon
       ? `https://cdn.simpleicons.org/${icon}/${color ?? 'a8abb3'}`
       : null;
 
+  const chipMotion = {
+    variants: chipVariants,
+    whileHover: canHoverMotion && !reduce ? { scale: 1.06, y: -2 } : undefined,
+    transition: { duration: motionTokens.duration.fast, ease: "easeOut" },
+  };
+
   if (!resolvedSrc) {
     return (
-      <li className="flex items-center justify-center rounded-lg bg-surface-container-high/60 px-2 py-2.5 w-[76px] sm:w-[84px] ring-1 ring-outline-variant/15 transition-colors hover:bg-surface-container-highest/80 hover:ring-outline-variant/30">
+      <motion.li
+        className="flex items-center justify-center rounded-lg bg-surface-container-high/60 px-2 py-2.5 w-[76px] sm:w-[84px] ring-1 ring-outline-variant/15 transition-colors hover:bg-surface-container-highest/80 hover:ring-outline-variant/30"
+        {...chipMotion}
+      >
         <span className="text-xs font-medium text-on-surface-variant text-center leading-tight">{name}</span>
-      </li>
+      </motion.li>
     );
   }
 
   return (
-    <li title={name} className="flex flex-col items-center gap-1.5 rounded-lg bg-surface-container-high/60 px-2 py-2.5 w-[76px] sm:w-[84px] ring-1 ring-outline-variant/15 transition-colors hover:bg-surface-container-highest/80 hover:ring-outline-variant/30">
+    <motion.li
+      title={name}
+      className="flex flex-col items-center gap-1.5 rounded-lg bg-surface-container-high/60 px-2 py-2.5 w-[76px] sm:w-[84px] ring-1 ring-outline-variant/15 transition-colors hover:bg-surface-container-highest/80 hover:ring-outline-variant/30"
+      {...chipMotion}
+    >
       <img
         src={resolvedSrc}
         alt=""
@@ -32,12 +70,12 @@ function SkillChip({ name, icon, color, iconUrl }) {
         loading="lazy"
       />
       <span className="text-xs font-medium text-on-surface-variant text-center leading-tight">{name}</span>
-    </li>
+    </motion.li>
   );
 }
 
 function Skills({ data }) {
-  const { reduce } = useMotionPrefs();
+  const { reduce, canHoverMotion } = useMotionPrefs();
   const { content } = useLanguage();
   const ui = content?.ui?.skills ?? {};
   const categories = Array.isArray(data?.categories) ? data.categories : [];
@@ -50,26 +88,40 @@ function Skills({ data }) {
         data-testid="skills-reveal-container"
         {...containerMotion}
       >
-        {categories.map((category, index) => (
-          <motion.div key={index} {...getItemReveal(reduce, index * 0.03)}>
-            <CardShell as="article" className="space-y-3 p-4 md:p-5 h-full" richness="nested">
-              <MetaLabel as="h3" className="text-primary">
-                {category.name}
-              </MetaLabel>
-              <ul className="flex flex-wrap gap-2">
-                {(category?.items ?? []).map((item) => (
-                  <SkillChip
-                    key={item.name}
-                    name={item.name}
-                    icon={item.icon}
-                    color={item.color}
-                    iconUrl={item.iconUrl}
-                  />
-                ))}
-              </ul>
-            </CardShell>
-          </motion.div>
-        ))}
+        {categories.map((category, index) => {
+          const glowColor =
+            index % 2 === 0
+              ? "0 0 24px rgba(107,255,143,0.10)"
+              : "0 0 24px rgba(193,128,255,0.10)";
+          return (
+            <motion.div
+              key={index}
+              variants={categoryVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              {...getCardInteract(reduce, canHoverMotion)}
+              whileHover={canHoverMotion && !reduce ? { scale: 1.02, y: -4, boxShadow: glowColor } : undefined}
+            >
+              <CardShell as="article" className="space-y-3 p-4 md:p-5 h-full" richness="nested">
+                <MetaLabel as="h3" className="text-primary">
+                  {category.name}
+                </MetaLabel>
+                <ul className="flex flex-wrap gap-2">
+                  {(category?.items ?? []).map((item) => (
+                    <SkillChip
+                      key={item.name}
+                      name={item.name}
+                      icon={item.icon}
+                      color={item.color}
+                      iconUrl={item.iconUrl}
+                    />
+                  ))}
+                </ul>
+              </CardShell>
+            </motion.div>
+          );
+        })}
       </motion.div>
     </SectionShell>
   );

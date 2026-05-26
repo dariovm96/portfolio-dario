@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { getSectionReveal } from "../motion/variants";
 import { useMotionPrefs } from "../motion/useMotionPrefs";
+import { motionTokens } from "../motion/tokens";
 import { sendContactEmail } from "../lib/contactEmail";
 import SectionShell from "./ui/SectionShell";
 import CardShell from "./ui/CardShell";
@@ -33,7 +34,7 @@ function ChannelIcon({ type }) {
 }
 
 function Contact({ data }) {
-  const { reduce } = useMotionPrefs();
+  const { reduce, canHoverMotion } = useMotionPrefs();
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -92,7 +93,11 @@ function Contact({ data }) {
       >
         <ul className="flex flex-wrap gap-3">
           {channels.map((channel) => (
-            <li key={channel.type}>
+            <motion.li
+              key={channel.type}
+              whileHover={canHoverMotion && !reduce ? { scale: 1.05, y: -2 } : undefined}
+              transition={{ duration: motionTokens.duration.fast, ease: "easeOut" }}
+            >
               <CTAButton
                 href={channel.href}
                 label={
@@ -105,7 +110,7 @@ function Contact({ data }) {
                 variant="ghost"
                 className="gap-2 px-4 py-2"
               />
-            </li>
+            </motion.li>
           ))}
         </ul>
 
@@ -120,7 +125,7 @@ function Contact({ data }) {
                   id={`contact-${field.name}`}
                   name={field.name}
                   aria-label={field.label}
-                  className="form-field-resting w-full rounded-xl p-3 text-on-surface"
+                  className="form-field-resting w-full rounded-xl p-3 text-on-surface focus:ring-2 focus:ring-primary/20 focus:outline-none"
                   rows={4}
                   required={field.required}
                   value={formValues[field.name] ?? ""}
@@ -132,7 +137,7 @@ function Contact({ data }) {
                   type={field.type}
                   name={field.name}
                   aria-label={field.label}
-                  className="form-field-resting w-full rounded-xl p-3 text-on-surface"
+                  className="form-field-resting w-full rounded-xl p-3 text-on-surface focus:ring-2 focus:ring-primary/20 focus:outline-none"
                   required={field.required}
                   value={formValues[field.name] ?? ""}
                   onChange={handleFieldChange(field.name)}
@@ -149,7 +154,27 @@ function Contact({ data }) {
               reduce ? "motion-reduce-safe" : ""
             }`.trim()}
           >
-            {data?.form?.submitLabel}
+            {submitStatus === "sending" ? (
+              <motion.span
+                key="sending"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-2"
+              >
+                <span className="animate-spin inline-block h-3.5 w-3.5 rounded-full border-2 border-surface/40 border-t-primary" />
+                Enviando...
+              </motion.span>
+            ) : (
+              <motion.span
+                key="idle"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {data?.form?.submitLabel}
+              </motion.span>
+            )}
           </button>
 
           {submitStatus === "sending" ? (
@@ -163,15 +188,27 @@ function Contact({ data }) {
             </motion.p>
           ) : null}
           {submitStatus === "success" ? (
-            <motion.p
+            <motion.div
               role="status"
-              className="text-primary"
-              initial={{ opacity: 0.5 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: reduce ? 0.01 : 0.14 }}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              className="flex items-center gap-2 text-primary"
             >
-              Mensaje enviado con éxito.
-            </motion.p>
+              <svg viewBox="0 0 24 24" width={18} height={18} fill="none">
+                <motion.path
+                  d="M4 12l5 5 11-11"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+                />
+              </svg>
+              <span>Mensaje enviado con éxito.</span>
+            </motion.div>
           ) : null}
           {submitStatus === "error" ? (
             <motion.p

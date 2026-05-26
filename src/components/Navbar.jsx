@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { scrollToSection } from '../utils/smoothScroll'
 import LanguageToggle from './ui/LanguageToggle'
 
@@ -6,6 +6,8 @@ function Navbar({ data = [], brand = null }) {
   const hasBrand = Boolean(brand?.label && brand?.href);
   const [activeSection, setActiveSection] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
+  const navListRef = useRef(null)
+  const pillRef = useRef(null)
 
   useEffect(() => {
     const sectionIds = data.map((item) => item.href.replace('#', ''))
@@ -40,6 +42,21 @@ function Navbar({ data = [], brand = null }) {
       window.removeEventListener('resize', close)
     }
   }, [menuOpen])
+
+  // Slides the active pill indicator to the active nav link
+  useEffect(() => {
+    if (!pillRef.current || !navListRef.current) return
+    const activeLink = navListRef.current.querySelector('a.is-active')
+    if (!activeLink) {
+      pillRef.current.style.opacity = '0'
+      return
+    }
+    const ulRect = navListRef.current.getBoundingClientRect()
+    const linkRect = activeLink.getBoundingClientRect()
+    pillRef.current.style.left = `${linkRect.left - ulRect.left}px`
+    pillRef.current.style.width = `${linkRect.width}px`
+    pillRef.current.style.opacity = '1'
+  }, [activeSection])
 
   function handleNavClick(sectionId) {
     scrollToSection(sectionId)
@@ -102,7 +119,7 @@ function Navbar({ data = [], brand = null }) {
           </button>
 
           {/* Links desktop — ocultos en mobile */}
-          <ul className="hidden md:flex items-center font-label" style={{ gap: '2rem' }}>
+          <ul ref={navListRef} className="hidden md:flex items-center font-label" style={{ gap: '2rem', position: 'relative' }}>
             {data.map((item) => {
               const sectionId = item.href.replace('#', '')
               const isActive = activeSection === sectionId
@@ -116,11 +133,11 @@ function Navbar({ data = [], brand = null }) {
                     className={`nav-link${isActive ? ' is-active' : ''}`}
                   >
                     {item.label}
-                    <span className="nav-underline" aria-hidden="true" />
                   </a>
                 </li>
               )
             })}
+            <div ref={pillRef} className="nav-active-pill" aria-hidden="true" />
           </ul>
           <LanguageToggle />
         </div>

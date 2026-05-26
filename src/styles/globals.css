@@ -267,12 +267,12 @@ h6 {
 }
 
 .nav-link:hover {
-  color: #22c55e;
+  color: var(--primary);
   transform: scale(1.08);
 }
 
 .nav-link.is-active {
-  color: #22c55e;
+  color: var(--primary);
 }
 
 .nav-underline {
@@ -281,15 +281,28 @@ h6 {
   left: 0;
   width: 0%;
   height: 1.5px;
-  background: #22c55e;
+  background: var(--primary);
   border-radius: 2px;
   transition: width 0.25s ease;
   display: block;
 }
 
-.nav-link:hover .nav-underline,
-.nav-link.is-active .nav-underline {
+.nav-link:hover .nav-underline {
   width: 100%;
+}
+
+.nav-active-pill {
+  position: absolute;
+  bottom: -2px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -298,6 +311,9 @@ h6 {
     transform: none !important;
   }
   .nav-underline {
+    transition: none !important;
+  }
+  .nav-active-pill {
     transition: none !important;
   }
 }

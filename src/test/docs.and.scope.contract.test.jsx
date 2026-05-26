@@ -61,8 +61,10 @@ describe("documentation and setup-scope contracts", () => {
     ];
     const phase3MotionAllowlistPaths = new Set([
       "src/components/Hero.jsx",
+      "src/components/About.jsx",
       "src/components/Skills.jsx",
       "src/components/Experience.jsx",
+      "src/components/Education.jsx",
       "src/components/Projects.jsx",
       "src/components/Contact.jsx",
       "src/components/ui/CTAButton.jsx",
