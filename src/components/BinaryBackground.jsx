@@ -85,6 +85,35 @@ export default function BinaryBackground() {
     }
   }, [])
 
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const el = canvasRef.current
+    if (!el) return
+
+    el.style.transform = 'scale(1.04)'
+
+    let rafId = null
+
+    function onMouseMove(e) {
+      const dx = (e.clientX / window.innerWidth - 0.5)
+      const dy = (e.clientY / window.innerHeight - 0.5)
+
+      if (rafId !== null) return
+      rafId = requestAnimationFrame(() => {
+        el.style.transform = `scale(1.04) translate(${dx * 12}px, ${dy * 8}px)`
+        rafId = null
+      })
+    }
+
+    window.addEventListener('mousemove', onMouseMove)
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      if (rafId !== null) cancelAnimationFrame(rafId)
+    }
+  }, [])
+
   return (
     <canvas
       ref={canvasRef}

@@ -17,6 +17,7 @@ function ProjectCard({ project, index, ui, reduce, canHoverMotion }) {
       key={project.name}
       data-testid="project-card-interactive"
       tabIndex={0}
+      className="card-shimmer"
       {...getCardInteract(reduce, canHoverMotion)}
       {...getCascadingCard(reduce, index)}
       initial={{ boxShadow: "0 2px 8px rgba(0,0,0,0.24)" }}

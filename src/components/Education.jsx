@@ -36,11 +36,17 @@ function Education({ data }) {
             className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             {...containerMotion}
           >
-            {degreeItems.map((item, index) => (
-              <motion.div key={index} {...getItemReveal(reduce, index * 0.05)}>
-                <DegreeCard item={item} reduce={reduce} canHoverMotion={canHoverMotion} />
-              </motion.div>
-            ))}
+            {degreeItems.map((item, index) => {
+              const xDir = index % 2 === 0 ? -24 : 24;
+              const cardProps = reduce
+                ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, delay: index * 0.12 } }
+                : { initial: { opacity: 0, x: xDir }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 } };
+              return (
+                <motion.div key={index} {...cardProps}>
+                  <DegreeCard item={item} reduce={reduce} canHoverMotion={canHoverMotion} index={index} />
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
 
@@ -63,11 +69,17 @@ function Education({ data }) {
                 className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 {...containerMotion}
               >
-                {certificationItems.map((item, index) => (
-                  <motion.div key={index} {...getItemReveal(reduce, index * 0.05)}>
-                    <CertCourseCard item={item} accent="green" ui={ui} reduce={reduce} />
-                  </motion.div>
-                ))}
+                {certificationItems.map((item, index) => {
+                  const xDir = index % 2 === 0 ? -24 : 24;
+                  const cardProps = reduce
+                    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, delay: index * 0.12 } }
+                    : { initial: { opacity: 0, x: xDir }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 } };
+                  return (
+                    <motion.div key={index} {...cardProps}>
+                      <CertCourseCard item={item} accent="green" ui={ui} reduce={reduce} />
+                    </motion.div>
+                  );
+                })}
               </motion.div>
             </div>
 
@@ -79,11 +91,17 @@ function Education({ data }) {
                 className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 {...containerMotion}
               >
-                {courseItems.map((item, index) => (
-                  <motion.div key={index} {...getItemReveal(reduce, index * 0.05)}>
-                    <CertCourseCard item={item} accent="purple" ui={ui} reduce={reduce} />
-                  </motion.div>
-                ))}
+                {courseItems.map((item, index) => {
+                  const xDir = index % 2 === 0 ? -24 : 24;
+                  const cardProps = reduce
+                    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, delay: index * 0.12 } }
+                    : { initial: { opacity: 0, x: xDir }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 } };
+                  return (
+                    <motion.div key={index} {...cardProps}>
+                      <CertCourseCard item={item} accent="purple" ui={ui} reduce={reduce} />
+                    </motion.div>
+                  );
+                })}
               </motion.div>
             </div>
           </div>
@@ -93,8 +111,11 @@ function Education({ data }) {
   );
 }
 
-function DegreeCard({ item, reduce, canHoverMotion }) {
+function DegreeCard({ item, reduce, canHoverMotion, index = 0 }) {
   const institutionAbbr = getInstitutionAbbreviation(item?.institution);
+  const iconMotionProps = reduce
+    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true, amount: 0.2 }, transition: { delay: index * 0.12 + 0.1 } }
+    : { initial: { scale: 0, rotate: -15 }, whileInView: { scale: 1, rotate: 0 }, viewport: { once: true, amount: 0.2 }, transition: { type: 'spring', stiffness: 400, damping: 12, delay: index * 0.12 + 0.1 } };
 
   return (
     <motion.article
@@ -103,12 +124,13 @@ function DegreeCard({ item, reduce, canHoverMotion }) {
       {...getCardInteract(reduce, canHoverMotion)}
     >
       <div className="flex items-start gap-3">
-        <div
+        <motion.div
           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-[#6bff8f44] bg-surface-container-high text-2xl"
           aria-hidden="true"
+          {...iconMotionProps}
         >
           <span>{item?.icon ?? "🎓"}</span>
-        </div>
+        </motion.div>
         <div>
           <MetaLabel className="mb-1 inline-flex rounded-full border border-[#6bff8f55] bg-[#6bff8f22] px-2 py-0.5 text-xs tracking-[0.08em] text-[#6bff8f]">
             {item?.typeBadge}
