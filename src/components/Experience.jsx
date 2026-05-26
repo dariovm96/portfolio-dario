@@ -56,8 +56,19 @@ function ExperienceCard({ item, reduce, ui }) {
             style={{ overflow: "hidden" }}
           >
             <ul className="list-disc space-y-1.5 pl-5 text-on-surface-variant px-4 md:px-5 pb-2">
-              {(item?.achievements ?? []).map((achievement) => (
-                <li key={achievement}>{achievement}</li>
+              {(item?.achievements ?? []).map((achievement, achievementIndex) => (
+                <motion.li
+                  key={achievement}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.28,
+                    delay: achievementIndex * 0.05,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  {achievement}
+                </motion.li>
               ))}
             </ul>
           </motion.div>
@@ -111,8 +122,30 @@ function Experience({ data }) {
             {...getItemReveal(reduce, index * 0.025)}
           >
             <div className="flex flex-col items-center pt-2" aria-hidden="true">
-              <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(193,128,255,0.7)]" />
-              <span className="mt-2 h-full w-px bg-outline-variant/30" />
+              <motion.span
+                className="h-2 w-2 shrink-0 rounded-full bg-secondary shadow-[0_0_8px_rgba(193,128,255,0.7)]"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: [0, 1.4, 1] }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.4,
+                  times: [0, 0.6, 1],
+                  ease: "easeOut",
+                  delay: index * 0.1,
+                }}
+              />
+              <motion.span
+                className="mt-2 w-px bg-outline-variant/30"
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{
+                  duration: 0.55,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: index * 0.1,
+                }}
+                style={{ transformOrigin: "top", display: "block", height: "100%" }}
+              />
             </div>
             <ExperienceCard item={item} reduce={reduce} ui={ui} />
           </motion.div>

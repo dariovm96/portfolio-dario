@@ -37,7 +37,7 @@ function Education({ data }) {
             {...containerMotion}
           >
             {degreeItems.map((item, index) => (
-              <motion.div key={`${item.title}-${item.period}`} {...getItemReveal(reduce, index * 0.05)}>
+              <motion.div key={index} {...getItemReveal(reduce, index * 0.05)}>
                 <DegreeCard item={item} reduce={reduce} canHoverMotion={canHoverMotion} />
               </motion.div>
             ))}
@@ -64,7 +64,7 @@ function Education({ data }) {
                 {...containerMotion}
               >
                 {certificationItems.map((item, index) => (
-                  <motion.div key={`${item.title}-${item.period}`} {...getItemReveal(reduce, index * 0.05)}>
+                  <motion.div key={index} {...getItemReveal(reduce, index * 0.05)}>
                     <CertCourseCard item={item} accent="green" ui={ui} reduce={reduce} />
                   </motion.div>
                 ))}
@@ -80,7 +80,7 @@ function Education({ data }) {
                 {...containerMotion}
               >
                 {courseItems.map((item, index) => (
-                  <motion.div key={`${item.title}-${item.period}`} {...getItemReveal(reduce, index * 0.05)}>
+                  <motion.div key={index} {...getItemReveal(reduce, index * 0.05)}>
                     <CertCourseCard item={item} accent="purple" ui={ui} reduce={reduce} />
                   </motion.div>
                 ))}
