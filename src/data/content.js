@@ -159,18 +159,27 @@ export const content = {
     },
     projects: [
       {
-        name: "Sistema de Gestión ERP",
-        year: "2024",
+        name: "PropiedadesRM",
+        year: "2026",
         description:
-          "Plataforma para administración de recursos y procesos operativos internos con foco en estabilidad y escalabilidad.",
-        tech: ["Laravel", "MySQL"],
-        githubUrl: "https://github.com/dariovm96/erp-gestion",
+          "Plataforma de bienes raíces para venta y arriendo en Chile, con panel de administración completo. Incluye catálogo público con animaciones, gestión de imágenes en la nube y autenticación para administradores.",
+        highlights: [
+          "Catálogo público con hero parallax, scroll reveal y estados de propiedad (disponible, vendida, arrendada)",
+          "ISR con revalidate cada 60s para propiedades destacadas en home",
+          "Panel admin con CRUD completo, upload a Supabase Storage y validación de imágenes (MIME, tamaño, aspecto)",
+          "Multi-admin configurable por env var y SEO con metadatos dinámicos, Open Graph y Schema.org JSON-LD",
+        ],
+        tech: ["Next.js", "React", "TypeScript", "Supabase", "Tailwind CSS", "ISR"],
+        imageUrl: "/images/projects/propiedadesRM.png",
+        githubUrl: "https://github.com/dariovm96/propiedades-rm",
+        demoUrl: "https://propiedades-rm.vercel.app/",
+        isCurrentSite: false,
       },
       {
-        name: "Portfolio React",
-        year: "2025",
+        name: "Portafolio React",
+        year: "2026",
         description:
-          "Portfolio personal diseñado y desarrollado desde cero con enfoque en arquitectura frontend, animaciones accesibles y despliegue continuo.",
+          "Portafolio personal diseñado y desarrollado desde cero con enfoque en arquitectura frontend, animaciones accesibles y despliegue continuo.",
         highlights: [
           "Arquitectura component-driven inspirada en Atomic Design",
           "Animaciones con Framer Motion respetando prefers-reduced-motion",
@@ -183,10 +192,22 @@ export const content = {
         isCurrentSite: true,
       },
       {
-        name: "API Gateway Custom",
-        year: "2024",
-        description: "Orquestación de servicios para comunicación entre plataformas distribuidas.",
-        tech: [".NET Core", "APIs REST"],
+        name: "GS Motors Bot",
+        year: "2026",
+        description:
+          "Automatización para un taller mecánico real que opera vía Telegram. Interpreta mensajes en lenguaje natural con IA para registrar, cerrar y consultar citas directamente en Google Sheets, sin formularios ni interfaces.",
+        highlights: [
+          "LLM (Llama 3.3 70B vía Groq) extrae datos estructurados desde mensajes descriptivos en lenguaje natural",
+          "Flujo de ingreso: genera ID único, registra cliente, vehículo, servicio, fecha y hora en Google Sheets",
+          "Flujo de cierre: detecta keywords (ENTREGADO, FINALIZADO) y actualiza la fila con servicios realizados, kilometraje y fecha de entrega",
+          "Comandos de consulta vía Telegram: agenda del día, resumen semanal y búsqueda de cliente por nombre",
+          "Nodos JavaScript personalizados para parsing de respuestas LLM, generación de IDs, filtrado con fuzzy matching y normalización Unicode, y construcción de mensajes Telegram",
+        ],
+        tech: ["n8n", "Llama 3.3", "Telegram API", "Google Sheets", "Railway", "Docker"],
+        imageUrl: "/images/projects/gs-motors.png",
+        githubUrl: null,
+        demoUrl: null,
+        isCurrentSite: false,
       },
     ],
     contact: {
@@ -406,11 +427,21 @@ export const content = {
     },
     projects: [
       {
-        name: "ERP Management System",
-        year: "2024",
+        name: "PropiedadesRM",
+        year: "2026",
         description:
-          "Platform for managing internal resources and operational processes with a focus on stability and scalability.",
-        tech: ["Laravel", "MySQL"],
+          "Real estate platform for property sales and rentals in Chile, featuring a full admin panel. Includes a public catalog with animations, cloud image management, and admin authentication.",
+        highlights: [
+          "Public catalog with hero parallax, scroll reveal, and property status tags (available, sold, rented)",
+          "ISR with 60s revalidation for featured properties on the home page",
+          "Full CRUD admin panel with Supabase Storage uploads and image validation (MIME type, size, aspect ratio)",
+          "Multi-admin support via env var and SEO with dynamic metadata, Open Graph, and Schema.org JSON-LD",
+        ],
+        tech: ["Next.js", "React", "TypeScript", "Supabase", "Tailwind CSS", "ISR"],
+        imageUrl: "/images/projects/propiedadesRM.png",
+        githubUrl: "https://github.com/dariovm96/propiedades-rm",
+        demoUrl: "https://propiedades-rm.vercel.app/",
+        isCurrentSite: false,
       },
       {
         name: "React Portfolio",
@@ -424,15 +455,27 @@ export const content = {
           "Mobile-first design with Tailwind CSS and a color token system",
         ],
         tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "EmailJS", "Vercel"],
-         imageUrl: "/images/projects/portfolio.png",
-         githubUrl: "https://github.com/dariovm96/portfolio-dario",
-         isCurrentSite: true,
-       },
-       {
-         name: "Custom API Gateway",
-        year: "2024",
-        description: "Service orchestration for communication between distributed platforms.",
-        tech: [".NET Core", "REST APIs"],
+        imageUrl: "/images/projects/portfolio.png",
+        githubUrl: "https://github.com/dariovm96/portfolio-dario",
+        isCurrentSite: true,
+      },
+      {
+        name: "GS Motors Bot",
+        year: "2026",
+        description:
+          "Automation for a real auto repair shop operating via Telegram. Uses AI to interpret natural language messages and register, close, and query appointments directly in Google Sheets. No forms, no interfaces.",
+        highlights: [
+          "LLM (Llama 3.3 70B via Groq) extracts structured data from free-form descriptive messages",
+          "Intake flow: generates a unique ID and logs client, vehicle, service, date, and time to Google Sheets",
+          "Closing flow: detects keywords (DELIVERED, DONE) and updates the row with services performed, mileage, and delivery date",
+          "Telegram query commands: daily agenda, weekly summary, and client lookup by name",
+          "Custom JavaScript nodes for LLM response parsing, ID generation, fuzzy matching with Unicode normalization, and Telegram message formatting",
+        ],
+        tech: ["n8n", "Llama 3.3", "Telegram API", "Google Sheets", "Railway", "Docker"],
+        imageUrl: "/images/projects/gs-motors.png",
+        githubUrl: null,
+        demoUrl: null,
+        isCurrentSite: false,
       },
     ],
     contact: {
