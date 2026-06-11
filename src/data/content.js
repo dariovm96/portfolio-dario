@@ -445,7 +445,7 @@ export const content = {
       },
       {
         name: "React Portfolio",
-        year: "2025",
+        year: "2026",
         description:
           "Personal portfolio designed and built from scratch with a focus on frontend architecture, accessible animations, and continuous deployment.",
         highlights: [
