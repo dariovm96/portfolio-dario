@@ -157,7 +157,9 @@ function Navbar({ data = [], brand = null }) {
             })}
             <span ref={pillRef} className="nav-active-pill" aria-hidden="true" />
           </ul>
-          <LanguageToggle />
+          <div className="hidden md:block">
+            <LanguageToggle />
+          </div>
         </div>
 
         {/* ── Menú mobile desplegable ── */}
