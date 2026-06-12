@@ -33,7 +33,7 @@ function Education({ data }) {
             {ui.degrees ?? "TÍTULOS Y GRADOS"}
           </MetaLabel>
           <motion.div
-            className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid grid-cols-1 gap-4 auto-rows-fr md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             {...containerMotion}
           >
             {degreeItems.map((item, index) => {
@@ -42,7 +42,7 @@ function Education({ data }) {
                 ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, delay: index * 0.12 } }
                 : { initial: { opacity: 0, x: xDir }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 } };
               return (
-                <motion.div key={index} {...cardProps}>
+                <motion.div key={index} className="h-full" {...cardProps}>
                   <DegreeCard item={item} reduce={reduce} canHoverMotion={canHoverMotion} index={index} />
                 </motion.div>
               );
@@ -66,7 +66,7 @@ function Education({ data }) {
                 {ui.certifications ?? "CERTIFICACIONES"}
               </MetaLabel>
               <motion.div
-                className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                className="grid grid-cols-1 gap-4 auto-rows-fr md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 {...containerMotion}
               >
                 {certificationItems.map((item, index) => {
@@ -75,7 +75,7 @@ function Education({ data }) {
                     ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, delay: index * 0.12 } }
                     : { initial: { opacity: 0, x: xDir }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 } };
                   return (
-                    <motion.div key={index} {...cardProps}>
+                    <motion.div key={index} className="h-full" {...cardProps}>
                       <CertCourseCard item={item} accent="green" ui={ui} reduce={reduce} />
                     </motion.div>
                   );
@@ -88,7 +88,7 @@ function Education({ data }) {
                 {ui.courses ?? "CURSOS"}
               </MetaLabel>
               <motion.div
-                className="grid grid-cols-1 justify-items-start gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                className="grid grid-cols-1 gap-4 auto-rows-fr md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 {...containerMotion}
               >
                 {courseItems.map((item, index) => {
@@ -97,7 +97,7 @@ function Education({ data }) {
                     ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, delay: index * 0.12 } }
                     : { initial: { opacity: 0, x: xDir }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 } };
                   return (
-                    <motion.div key={index} {...cardProps}>
+                    <motion.div key={index} className="h-full" {...cardProps}>
                       <CertCourseCard item={item} accent="purple" ui={ui} reduce={reduce} />
                     </motion.div>
                   );
@@ -119,7 +119,7 @@ function DegreeCard({ item, reduce, canHoverMotion, index = 0 }) {
 
   return (
     <motion.article
-      className="group card-ghost-edge flex min-h-[16rem] w-full max-w-[420px] flex-col gap-3 rounded-xl border border-[#6bff8f44] border-l-[3px] border-l-[#6bff8f] bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-[#6bff8f66] hover:border-l-[#6bff8f]"
+      className="group card-ghost-edge flex h-full min-h-[16rem] w-full flex-col gap-3 rounded-xl border border-[#6bff8f44] border-l-[3px] border-l-[#6bff8f] bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-[#6bff8f66] hover:border-l-[#6bff8f]"
       data-testid="education-degree-card"
       {...getCardInteract(reduce, canHoverMotion)}
     >
@@ -184,7 +184,7 @@ function CertCourseCard({ item, accent, ui, reduce }) {
 
   return (
     <motion.article
-      className={`group card-ghost-edge flex min-h-[15rem] w-full max-w-[420px] flex-col gap-3 rounded-xl border ${accentTokens.border} border-l-[3px] ${accentTokens.left} bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-l-[3px]`}
+      className={`group card-ghost-edge flex h-full min-h-[15rem] w-full flex-col gap-3 rounded-xl border ${accentTokens.border} border-l-[3px] ${accentTokens.left} bg-surface-container-low p-5 shadow-[0_12px_24px_rgba(0,0,0,0.24)] transition-colors hover:border-l-[3px]`}
       data-testid={accent === "purple" ? "education-course-card" : "education-certification-card"}
       whileHover={!reduce ? { boxShadow: accentTokens.glowHover } : undefined}
       transition={{ duration: 0.2 }}
