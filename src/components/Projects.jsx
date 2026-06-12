@@ -35,25 +35,29 @@ function ProjectCard({ project, index, ui, reduce, canHoverMotion }) {
       >
         <ProjectMedia project={project} index={index} ui={ui} />
 
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 className="font-semibold text-on-surface">{project.name}</h3>
-          {project.year && (
-            <MetaLabel className="shrink-0 text-outline">{project.year}</MetaLabel>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-baseline justify-between gap-2">
+            <h3 className="font-semibold text-on-surface">{project.name}</h3>
+            {project.year && (
+              <MetaLabel className="shrink-0 text-outline">{project.year}</MetaLabel>
+            )}
+          </div>
+
+          <p className="text-sm text-on-surface-variant">{project.description}</p>
+
+          {Array.isArray(project.highlights) && project.highlights.length > 0 && (
+            <ul className="space-y-1.5">
+              {project.highlights.map((h) => (
+                <li key={h} className="flex items-start gap-2 text-sm text-on-surface-variant">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
+                  {h}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
 
-        <p className="text-sm text-on-surface-variant">{project.description}</p>
-
-        {Array.isArray(project.highlights) && project.highlights.length > 0 && (
-          <ul className="space-y-1.5">
-            {project.highlights.map((h) => (
-              <li key={h} className="flex items-start gap-2 text-sm text-on-surface-variant">
-                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
-                {h}
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className="flex-1" aria-hidden="true" />
 
         <div data-testid="project-meta-group" className="flex flex-wrap gap-2">
           {(project?.tech ?? []).map((tech) => (
@@ -68,7 +72,7 @@ function ProjectCard({ project, index, ui, reduce, canHoverMotion }) {
           ))}
         </div>
 
-        <div data-testid="project-cta-group" className="mt-auto flex flex-wrap items-center gap-2">
+        <div data-testid="project-cta-group" className="flex min-h-[2.5rem] flex-wrap items-center gap-2">
           {project.githubUrl && project.githubUrl !== "#" && (
             <CTAButton
               href={project.githubUrl}
